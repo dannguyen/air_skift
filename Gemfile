@@ -49,10 +49,12 @@ gem 'activerecord-import', '>= 0.4'
 Todo:
 
 View->Airlines
+  - add @airports as @hubs in controller
+
+
   - add link_to
   - flesh out table
   - order the airport/routes
-  -
 
 
 =end
