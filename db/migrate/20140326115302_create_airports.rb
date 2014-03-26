@@ -9,5 +9,8 @@ class CreateAirports < ActiveRecord::Migration
 
       t.timestamps
     end
+
+    add_index :airports, :dot_code
+
   end
 end

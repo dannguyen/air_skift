@@ -15,12 +15,17 @@ class CreateMonthlyCarrierRoutes < ActiveRecord::Migration
       t.string :origin_airport_dot_code
       t.string :dest_airport_dot_code
       t.string :aircraft_type_id
-      t.integer :airport_group
+      t.integer :aircraft_group
       t.integer :aircraft_config
       t.integer :year
       t.integer :month
 
       t.timestamps
     end
+
+    add_index :monthly_carrier_routes, [:unique_carrier_code, :origin_airport_dot_code, :dest_airport_dot_code], name: 'index_routes_on_airport_and_carrier_codes'
+    add_index :monthly_carrier_routes, :origin_airport_dot_code
+    add_index :monthly_carrier_routes, :dest_airport_dot_code
+
   end
 end

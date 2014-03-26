@@ -6,5 +6,8 @@ class CreateCarriers < ActiveRecord::Migration
 
       t.timestamps
     end
+
+    add_index :carriers, :code
+
   end
 end
