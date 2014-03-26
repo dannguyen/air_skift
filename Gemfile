@@ -41,41 +41,5 @@ gem 'slim-rails'
 gem 'activerecord-import', '>= 0.4'
 
 # TKS
-# gem "friendly_id"
-# gem 'bootstrap-sass', '~> 3.1.1'
-
-=begin
-
-Todo:
-
-View->Airlines
-  - add @airports as @hubs in controller
-
-
-  - add link_to
-  - flesh out table
-  - order the airport/routes
-
-
-Structure of site:
-
-airports/
-  - every airport in the database
-airports/jfk
-  - number of passengers to destination airport
-  - top airlines
-
-airports/jfk/delta
-  - every delta route to other airports
-
-airports/jfk/to/lga
-  - every airline to that airport
-
-airlines/
-airlines/delta
-airlines/origin-airport
-
-
-
-
-=end
+gem "friendly_id"
+gem 'bootstrap-sass', '~> 3.1.1'
