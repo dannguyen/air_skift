@@ -57,4 +57,25 @@ View->Airlines
   - order the airport/routes
 
 
+Structure of site:
+
+airports/
+  - every airport in the database
+airports/jfk
+  - number of passengers to destination airport
+  - top airlines
+
+airports/jfk/delta
+  - every delta route to other airports
+
+airports/jfk/to/lga
+  - every airline to that airport
+
+airlines/
+airlines/delta
+airlines/origin-airport
+
+
+
+
 =end

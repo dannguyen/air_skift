@@ -1,0 +1,39 @@
+h1 From #{{@origin.name}}
+h2 to #{{@destination.name}}
+
+/ table
+/   - @routes.each do |route|
+/     tr
+/       td = route.carrier.name
+/       td = route.year
+/       td = route.month
+/       td = AircraftModel.to_name( route.aircraft_type_id )
+/       td = number_with_delimiter route.passengers
+
+
+- @routes.group_by{|x| x.carrier}.each_pair do |carrier, routes|
+  h3 = carrier.name
+  table
+
+    - routes.group_by{|r| r.aircraft_type_id }.each_pair do |aircraft_id, x_routes|
+      tr
+        td = AircraftModel.to_name( route.aircraft_type_id )
+
+        - x_routes.each do |route|
+          td = route.year
+          td = route.month
+          td = number_with_delimiter route.passengers
+
+
+/ ul
+/ - @routes.group_by{|x| x.carrier}.each_pair do |carrier, routes|
+/   li
+/     => carrier.name
+/     ul
+/       - routes.each do |route|
+/         li => "Aircraft #{route.aircraft_type_id}"
+/         li =>  number_with_delimiter route.passengers
+/     / => route.year
+/     / => route.month
+/     / => route.aircraft_type_id
+/     / => number_with_delimiter route.passengers

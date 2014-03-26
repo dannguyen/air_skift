@@ -6,6 +6,11 @@ class MonthlyCarrierRoute < ActiveRecord::Base
   validates :unique_carrier_code, uniqueness: { scope: [:origin_airport_dot_code, :dest_airport_dot_code, :aircraft_type_id, :aircraft_config, :year, :month] }
 
 
+  scope :chrono, ->{ order('year ASC, month ASC') }
+  scope :alphabetical_path, ->{ order('origin_airport_dot_code ASC, dest_airport_dot_code ASC')}
+  scope :alphabetical_carrier, ->{ order('unique_carrier_code ASC')}
+
+
   delegate :name, :to => :origin_airport, prefix: true
   delegate :name, :to => :destination_airport, prefix: true
   # TKS - Demeter of carrier name
