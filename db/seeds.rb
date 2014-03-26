@@ -11,7 +11,7 @@ require 'csv'
 
 
 puts "Loading airports..."
-airports_fname = Rails.root.join('lib/assets/data/L_AIRPORT_ID.csv')
+airports_fname = Rails.root.join('lib/assets/data/lookups/L_AIRPORT_ID.csv')
 CSV.open(airports_fname, headers: true).each do |row|
   hsh = {dot_code: row['Code']}
   location, hsh[:name] = row['Description'].split(': ')
@@ -28,7 +28,7 @@ end
 
 
 puts "Loading carriers"
-carriers_fname = Rails.root.join('lib/assets/data/L_UNIQUE_CARRIERS.csv')
+carriers_fname = Rails.root.join('lib/assets/data/lookups/L_UNIQUE_CARRIERS.csv')
 CSV.open(carriers_fname, headers: true).each do |row|
   c = Carrier.create(code: row['Code'], name: row['Description'])
   puts c.name

@@ -5,6 +5,24 @@ class MonthlyCarrierRoute < ActiveRecord::Base
 
   validates :unique_carrier_code, uniqueness: { scope: [:origin_airport_dot_code, :dest_airport_dot_code, :aircraft_type_id, :aircraft_config, :year, :month] }
 
+
+  delegate :name, :to => :origin_airport, prefix: true
+  delegate :name, :to => :destination_airport, prefix: true
+  # TKS - Demeter of carrier name
+
+  def name
+    "#{carrier.name}: #{path_name}"
+  end
+
+  def path_name
+    "#{origin_airport_name} => #{destination_airport_name}"
+  end
+
+
+  def self.build_from_official_csv(row)
+    self.new(make_hash_from_official_csv(row))
+  end
+
   # row is a CSV::Row
   def self.make_hash_from_official_csv(row)
 

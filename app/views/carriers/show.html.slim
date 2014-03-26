@@ -1,0 +1,14 @@
+h1 = @carrier.name
+
+
+section.routes
+  table
+    - @carrier.monthly_carrier_routes.each do |route|
+      tr
+        / td = route.origin_airport_name
+        / td = route.destination_airport_name
+        td = route.month
+        td = route.year
+        td = number_with_delimiter route.passengers
+        / # TKS month-year-date concat
+        / td = aircraft name to differentiate

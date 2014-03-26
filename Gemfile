@@ -37,16 +37,22 @@ end
 
 gem 'rspec'
 gem 'rspec-rails'
+gem 'slim-rails'
+gem 'activerecord-import', '>= 0.4'
+
+# TKS
+# gem "friendly_id"
+# gem 'bootstrap-sass', '~> 3.1.1'
+
+=begin
+
+Todo:
+
+View->Airlines
+  - add link_to
+  - flesh out table
+  - order the airport/routes
+  -
 
 
-# Use ActiveModel has_secure_password
-# gem 'bcrypt-ruby', '~> 3.1.2'
-
-# Use unicorn as the app server
-# gem 'unicorn'
-
-# Use Capistrano for deployment
-# gem 'capistrano', group: :development
-
-# Use debugger
-# gem 'debugger', group: [:development, :test]
+=end

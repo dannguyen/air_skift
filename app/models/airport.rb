@@ -6,4 +6,8 @@ class Airport < ActiveRecord::Base
   has_many :departing_monthly_carrier_routes, class_name: 'MonthlyCarrierRoute', primary_key: 'dot_code', foreign_key: 'origin_airport_dot_code'
 
 
+
+  def location
+    [city, state, country].compact.join(', ')
+  end
 end
