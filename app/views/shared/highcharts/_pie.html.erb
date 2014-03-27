@@ -1,0 +1,58 @@
+<%
+  chart_id ||= "pie-#{"%07d" %  rand(1000000)}"
+  series = chart[:series].first.tap{|s|
+    s[:data] = s[:data].to_a
+  }
+
+  height ||= 400
+
+  chart_options = highchart_defaults.merge({
+    colors: ['#04B3CE','#1F5055', '#5D717C', '#66BD6F', '#D7AB9E', '#94A6B4'],
+    chart: {
+       type: 'pie',       backgroundColor: 'none',
+    },
+    legend: {align: 'right', verticalAlign: 'middle', layout: 'vertical'},
+    plotOptions:{
+      pie:{
+       showInLegend: true,
+       allowPointSelect: true,
+       cursor: 'pointer'
+      },
+      series: {
+        dataLabels: {} # for fixing in JS
+      }
+    },
+
+    series: [
+      # for now, just a single series
+        series.merge({
+              dataLabels:{
+                distance: -45,
+                format: '{point.percentage:.1f}%',
+                style: {
+                  color: 'white',
+                  fontSize: '15px',
+                  fontFamily: 'Helvetica Neue',
+                }
+              }
+            })
+    ]
+  })
+%>
+
+<% content_for :ad_hoc do %>
+<script>
+  $(function(){
+      var chart_options = <%= raw JSON.generate chart_options %>;
+    $("#<%=chart_id%>").highcharts(chart_options);
+  });
+</script>
+<% end %>
+
+
+<div class="pie chart">
+  <div id="<%=chart_id%>" style="height: <%=height%>px;">
+
+  </div>
+</div>
+

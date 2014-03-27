@@ -1,0 +1,71 @@
+
+    <%
+
+chart_id ||= "bar-#{"%07d" %  rand(1000000)}"
+height ||= 600
+
+  chart_options = highchart_defaults.merge({
+    legend: {enabled: true},
+    colors: ['#04B3CE','#1F5055', '#5D717C', '#66BD6F', '#D7AB9E', '#94A6B4'],
+    chart: {
+                type: 'bar'
+            },
+            title: {
+                text: chart[:title]
+            },
+     plotOptions: {
+                series: {
+                    stacking: 'normal'
+                },
+                bar: {
+                    pointPadding: 5,
+                    pointWidth: 20,
+                    shadow: true
+                }
+            },
+
+    series: chart[:series],
+    xAxis: {
+      categories: chart[:categories],
+      labels: {
+        style: {
+          fontSize: '14px',
+          fontFamily: 'Helvetica Neue',
+          color: '#000'
+        }
+
+      }
+    } ,
+    yAxis:{
+      title: nil,
+      labels: {
+        style: {
+          fontWeight: 'bold',
+          fontSize: '10px',
+          fontFamily: 'Helvetica Neue',
+          color: '#000'
+        }
+
+      }
+    },
+
+  })
+
+%>
+
+
+<% content_for :ad_hoc do %>
+<script>
+  $(function(){
+    $("#<%=chart_id%>").highcharts(<%=raw JSON.generate chart_options%>);
+  });
+</script>
+<% end %>
+
+
+
+<div class="chart highchart">
+  <div id="<%=chart_id%>" style="height: <%=height%>px;">
+
+  </div>
+</div>

@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+html
+  = render :partial => 'shared/meta_header'
+  body
+    = render :partial =>  'shared/header'
+
+    div class="container"
+      = yield
+
+    = render :partial =>  'shared/footer'
+    = yield :ad_hoc

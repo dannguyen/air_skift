@@ -40,6 +40,6 @@ gem 'rspec-rails'
 gem 'slim-rails'
 gem 'activerecord-import', '>= 0.4'
 
-# TKS
 gem "friendly_id"
 gem 'bootstrap-sass', '~> 3.1.1'
+gem 'meta-tags', :require => 'meta_tags'

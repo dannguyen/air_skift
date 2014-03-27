@@ -13,3 +13,41 @@
  */
 
 @import "bootstrap";
+
+
+body{
+  font-size: 16px;
+}
+
+footer.footer{
+  border-top: thin solid #aaa;
+  margin-top: 6.0em;
+  padding-bottom: 4.0em;
+  padding-top: 1.5em;
+
+  background: black;
+
+  color: white;
+
+
+  a, a:link{
+    color: #aaf;
+  }
+}
+
+header.header{
+  border-bottom: thin solid #aaa;
+  margin-bottom: 3.0em;
+  padding-bottom: 0.5em;
+  padding-top: 1.0em;
+
+  .site-title{
+    font-size: 1.1em;
+
+    a:link, a{
+      color: #555;
+    }
+  }
+}
+
+
