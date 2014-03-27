@@ -7,6 +7,36 @@ if (jQuery('#app-map').length) {
 	});
 }
 
+if (jQuery('#route-map').length) {
+	
+	if (jQuery('#route-map').attr('data-flight-domestic')) {
+		mapScope = 'usa';
+	}
+
+	var routemap = new Datamap({
+		element: document.getElementById("route-map"),
+		scope: mapScope,
+		geographyConfig: {
+			highlightOnHover: false,
+			popupOnHover: false
+		}
+	});
+		
+	routemap.arc([
+		{
+			origin: {
+				latitude: jQuery('#route-map').attr('data-origin-lat'),
+				longitude: jQuery('#route-map').attr('data-origin-long')
+			},
+			destination: {
+				latitude: jQuery('#route-map').attr('data-dest-lat'),
+				longitude: jQuery('#route-map').attr('data-dest-long')
+			}
+		}
+	]);
+}
+
+// Test code, just on arcs view
 if (jQuery('#arcs').length) {
 	var arcs = new Datamap({
 		element: document.getElementById("arcs"),
