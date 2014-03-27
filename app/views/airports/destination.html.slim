@@ -1,5 +1,10 @@
 h1 From #{{@origin.name}}
 h2 to #{{@destination.name}}
+	
+/ Hardcoded in ATL to LGA for now
+/ http://0.0.0.0:3000/airports/374/to/2826
+
+div#route-map[data-origin-lat="33.6366996765137" data-origin-long="-84.4281005859375" data-dest-lat="40.77719879" data-dest-long="-73.87259674" data-flight-domestic="true"]
 
 / table
 /   - @routes.each do |route|
@@ -12,17 +17,16 @@ h2 to #{{@destination.name}}
 
 
 - @routes.group_by{|x| x.carrier}.each_pair do |carrier, routes|
-  h3 = carrier.name
-  table
+	h3 = carrier.name
+	table.table.table-striped.table-bordered
+		/ - routes.group_by{|r| r.aircraft_type_id }.each_pair do |aircraft_id, x_routes|
+		- routes.each do |route|
+			tr
+				td = Date::MONTHNAMES[route.month]
+				td = route.year
+				td = AircraftModel.to_name route.aircraft_type_id
+				td = number_with_delimiter route.passengers
 
-    - routes.group_by{|r| r.aircraft_type_id }.each_pair do |aircraft_id, x_routes|
-      tr
-        td = AircraftModel.to_name( route.aircraft_type_id )
-
-        - x_routes.each do |route|
-          td = route.year
-          td = route.month
-          td = number_with_delimiter route.passengers
 
 
 / ul
