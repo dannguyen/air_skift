@@ -17,11 +17,11 @@ namespace :import do
 
     namespace :sample do
       task :big => :environment do
-        Rake::Task['import:t100'].invoke('t100-sample-top-airlines-2009-on.csv')
+        Rake::Task['import:t100:file'].invoke('t100-sample-top-airlines-2009-on.csv')
       end
 
       task :small => :environment do
-        Rake::Task['import:t100'].invoke('sample/t_100.csv')
+        Rake::Task['import:t100:file'].invoke('sample/t_100.csv')
       end
 
       desc 'removes all airports and carriers not in the sample'

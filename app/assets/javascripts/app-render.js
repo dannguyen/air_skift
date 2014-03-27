@@ -1,16 +1,19 @@
 // code to instantiate a map
 
-if (jQuery('#app-map').length) {
+if ($('#app-map').length) {
 	var appmap = new Datamap({
 		element: document.getElementById("app-map"),
 		projection: 'mercator'
 	});
 }
 
-if (jQuery('#route-map').length) {
+if ($('#route-map').length) {
 	
-	if (jQuery('#route-map').attr('data-flight-domestic')) {
+	if (($('#route-map').attr('data-origin-country') === $('#route-map').attr('data-dest-country')) && ($('#route-map').attr('data-origin-country') === 'US')) {
 		mapScope = 'usa';
+	}
+	else {
+		mapScope = 'world';
 	}
 
 	var routemap = new Datamap({
@@ -19,25 +22,27 @@ if (jQuery('#route-map').length) {
 		geographyConfig: {
 			highlightOnHover: false,
 			popupOnHover: false
-		}
+		},
+
 	});
 		
 	routemap.arc([
 		{
 			origin: {
-				latitude: jQuery('#route-map').attr('data-origin-lat'),
-				longitude: jQuery('#route-map').attr('data-origin-long')
+				latitude: $('#route-map').attr('data-origin-lat'),
+				longitude: $('#route-map').attr('data-origin-long')
 			},
 			destination: {
-				latitude: jQuery('#route-map').attr('data-dest-lat'),
-				longitude: jQuery('#route-map').attr('data-dest-long')
+				latitude: $('#route-map').attr('data-dest-lat'),
+				longitude: $('#route-map').attr('data-dest-long')
 			}
 		}
+
 	]);
 }
 
 // Test code, just on arcs view
-if (jQuery('#arcs').length) {
+if ($('#arcs').length) {
 	var arcs = new Datamap({
 		element: document.getElementById("arcs"),
 		scope: 'usa',

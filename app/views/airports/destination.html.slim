@@ -1,10 +1,10 @@
-h1 From #{{@origin.name}}
-h2 to #{{@destination.name}}
+h1 From #{{@origin.name}} (#{{@origin.iata}})
+h2 to #{{@destination.name}} (#{{@destination.iata}})
 	
 / Hardcoded in ATL to LGA for now
 / http://0.0.0.0:3000/airports/374/to/2826
 
-div#route-map[data-origin-lat="33.6366996765137" data-origin-long="-84.4281005859375" data-dest-lat="40.77719879" data-dest-long="-73.87259674" data-flight-domestic="true"]
+div#route-map[data-origin-lat="#{{@origin.latitude}}" data-origin-long="#{{@origin.longitude}}" data-dest-lat="#{{@destination.latitude}}" data-dest-long="#{{@destination.longitude}}" data-origin-country="#{{@origin.country}}" data-dest-country="#{{@destination.country}}"]
 
 / table
 /   - @routes.each do |route|

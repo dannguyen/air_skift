@@ -17,8 +17,8 @@ class AirportsController < ApplicationController
 
 
   def destination
-    @origin = Airport.find params[:origin_id]
-    @destination = Airport.find params[:destination_id]
+    @origin = Airport.where( :iata => params[:origin_id] ).first
+    @destination = Airport.where( :iata => params[:destination_id] ).first
 
     @routes = MonthlyCarrierRoute.alphabetical_carrier.chrono.where(:origin_airport_dot_id => @origin.dot_id).where(:dest_airport_dot_id => @destination.dot_id)
   end
