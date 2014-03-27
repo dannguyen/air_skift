@@ -13,4 +13,6 @@
 //= require jquery
 //= require jquery_ujs
 //= require turbolinks
-//= require_tree .
+//= require vendor/d3
+//= require vendor/topojson
+//= require vendor/datamaps.all

@@ -43,6 +43,19 @@ ORDER BY
   unique_carrier_code, year, month, `AIRCRAFT_TYPE`
 ```
 
+
+##### Non-dynamic version (post 2004)
+
+```sql
+select * from t100_all
+WHERE unique_carrier
+IN("DL", "AA", "WN", "UA", "US", "NW", "CO", "AS", "HP", "TW", "MQ", "FL", "B6", "OO", "EV", "XE", "HA", "BA", "QX", "YV", "F9", "AC", "9E", "OH", "ZW", "NK", "TZ", "KH", "LH", "XJ")
+AND year >= 2004
+
+ORDER BY
+  unique_carrier, year, month, `AIRCRAFT_TYPE`
+```
+
 ##### Select records that involve one of the top 150 airports
 
 ```sql
