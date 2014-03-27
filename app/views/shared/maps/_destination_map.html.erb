@@ -1,0 +1,46 @@
+
+
+
+<div id="route-map" data-origin-lat="<%=origin.latitude%>" data-origin-long="<%=origin.longitude%>" data-dest-lat="<%=destination.latitude%>" data-dest-long="<%=destination.longitude%>" data-origin-country="<%=origin.country%>" data-dest-country="<%=destination.country%>">
+</div>
+
+
+
+
+
+<script>
+	
+if (($('#route-map').attr('data-origin-country') === $('#route-map').attr('data-dest-country')) && ($('#route-map').attr('data-origin-country') === 'US')) {
+		mapScope = 'usa';
+}
+else {
+	mapScope = 'world';
+}
+
+var routemap = new Datamap({
+	element: document.getElementById("route-map"),
+	scope: mapScope,
+	geographyConfig: {
+		highlightOnHover: false,
+		popupOnHover: false
+	},
+
+});
+	
+routemap.arc([
+	{
+		origin: {
+			latitude: $('#route-map').attr('data-origin-lat'),
+			longitude: $('#route-map').attr('data-origin-long')
+		},
+		destination: {
+			latitude: $('#route-map').attr('data-dest-lat'),
+			longitude: $('#route-map').attr('data-dest-long')
+		}
+	}
+
+]);
+
+
+
+</script>
