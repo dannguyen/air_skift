@@ -1,0 +1,31 @@
+
+h2
+  => @airport.name
+  => @airport.location
+
+h3 As serviced from #{{@carrier.name}}
+
+p => "Coordinates: #{@airport.latitude}, #{@airport.longitude}"
+
+
+
+div#airport-map
+
+- content_for :ad_hoc
+  javascript:
+
+    var airportmap = new Datamap({
+      element: document.getElementById("airport-map"),
+      projection: 'mercator',
+      fills: {
+         defaultFill: '#88ccaa',
+         origin: "#3300ff",
+      }
+    });
+    airportmap.bubbles([
+      {
+        radius: 4,
+        fillKey: 'origin',
+        latitude: #{{@airport.latitude}},
+        longitude: #{{@airport.longitude}}
+      }]);

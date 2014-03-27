@@ -4,12 +4,15 @@
 ##### Select busiest airports based on post-2004 traffic, add ourairports data
 
 ```sql
-select count(1) as record_count, sum(`PASSENGERS`) total_passengers, ORIGIN_AIRPORT_ID as origin_airport_dot_id, 
+select 
+  t3.`Description` AS description,
+  count(1) as record_count, sum(`PASSENGERS`) total_passengers, ORIGIN_AIRPORT_ID as origin_airport_dot_id, 
   ORIGIN as origin_airport_iata, ORIGIN_CITY_NAME, `ORIGIN_STATE_ABR`, ORIGIN_WAC,
   t2.type AS airport_type,
   t2.latitude_deg AS latitude,
   t2.longitude_deg AS longitude,
   t2.iso_country AS iso_country,
+  t2.municipality AS municipality,
   t2.iso_region AS iso_region,
   t2.gps_code AS gps_code,
   t2.local_code AS local_code,
@@ -19,10 +22,12 @@ select count(1) as record_count, sum(`PASSENGERS`) total_passengers, ORIGIN_AIRP
 from t100_all
 INNER JOIN ourairports AS t2
   ON t2.iata_code = ORIGIN
+INNER JOIN bts_airport_ids AS t3
+  on t3.`Code` = ORIGIN_AIRPORT_ID
 
 WHERE year > 2004
-group by origin_airport_dot_id
-order by total_passengers desc
+GROUP BY origin_airport_dot_id
+ORDER BY total_passengers DESC
 ```
 
 

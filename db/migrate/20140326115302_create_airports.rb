@@ -5,12 +5,12 @@ class CreateAirports < ActiveRecord::Migration
       t.string :state
       t.string :country
       t.string :city
-      t.string :dot_code
+      t.string :dot_id
 
       t.timestamps
     end
 
-    add_index :airports, :dot_code
+    add_index :airports, :dot_id
 
   end
 end

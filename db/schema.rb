@@ -15,19 +15,24 @@ ActiveRecord::Schema.define(version: 20140326115302) do
 
   create_table "airports", force: true do |t|
     t.string   "name"
-    t.string   "state"
-    t.string   "country"
     t.string   "city"
-    t.string   "dot_code"
+    t.string   "country"
+    t.string   "region"
+    t.string   "dot_id",        limit: 6
+    t.string   "iata",          limit: 4
+    t.decimal  "latitude",                precision: 10, scale: 6
+    t.decimal  "longitude",               precision: 10, scale: 6
+    t.string   "facility_type"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  add_index "airports", ["dot_code"], name: "index_airports_on_dot_code", using: :btree
+  add_index "airports", ["dot_id"], name: "index_airports_on_dot_id", using: :btree
+  add_index "airports", ["iata"], name: "index_airports_on_iata", using: :btree
 
   create_table "carriers", force: true do |t|
     t.string   "name"
-    t.string   "code"
+    t.string   "code",       limit: 7
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -45,9 +50,9 @@ ActiveRecord::Schema.define(version: 20140326115302) do
     t.integer  "distance"
     t.integer  "ramp_to_ramp"
     t.integer  "air_time"
-    t.string   "unique_carrier_code"
-    t.string   "origin_airport_dot_code"
-    t.string   "dest_airport_dot_code"
+    t.string   "unique_carrier_code",   limit: 7
+    t.string   "origin_airport_dot_id", limit: 6
+    t.string   "dest_airport_dot_id",   limit: 6
     t.string   "aircraft_type_id"
     t.integer  "aircraft_group"
     t.integer  "aircraft_config"
@@ -57,8 +62,8 @@ ActiveRecord::Schema.define(version: 20140326115302) do
     t.datetime "updated_at"
   end
 
-  add_index "monthly_carrier_routes", ["dest_airport_dot_code"], name: "index_monthly_carrier_routes_on_dest_airport_dot_code", using: :btree
-  add_index "monthly_carrier_routes", ["origin_airport_dot_code"], name: "index_monthly_carrier_routes_on_origin_airport_dot_code", using: :btree
-  add_index "monthly_carrier_routes", ["unique_carrier_code", "origin_airport_dot_code", "dest_airport_dot_code"], name: "index_routes_on_airport_and_carrier_codes", using: :btree
+  add_index "monthly_carrier_routes", ["dest_airport_dot_id"], name: "index_monthly_carrier_routes_on_dest_airport_dot_id", using: :btree
+  add_index "monthly_carrier_routes", ["origin_airport_dot_id"], name: "index_monthly_carrier_routes_on_origin_airport_dot_id", using: :btree
+  add_index "monthly_carrier_routes", ["unique_carrier_code", "origin_airport_dot_id", "dest_airport_dot_id"], name: "index_routes_on_airport_and_carrier_codes", using: :btree
 
 end
