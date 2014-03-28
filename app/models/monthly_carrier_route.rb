@@ -10,10 +10,21 @@ class MonthlyCarrierRoute < ActiveRecord::Base
   scope :alphabetical_path, ->{ order('origin_airport_dot_id ASC, dest_airport_dot_id ASC')}
   scope :alphabetical_carrier, ->{ order('unique_carrier_code ASC')}
 
+  scope :normal_order, ->{ alphabetical_carrier.chrono }
+
+  scope :in_year, ->(y){ where(year: y) }
+  scope :in_month, ->(m){ where(month: m) }
+
+  scope :leaving_from, ->(a){ where( :origin_airport_dot_id => Airport.get_uid(a))  }
+  scope :departing_from, ->(a){ leaving_from(a) } # alias
+  scope :arriving_at, ->(a){ where :dest_airport_dot_id => Airport.get_uid(a)  }
+  scope :via, ->(c){ where :unique_carrier_code => Carrier.get_uid(c) }
+
+
 
   delegate :name, :to => :origin_airport, prefix: true, allow_nil: true
   delegate :name, :to => :destination_airport, prefix: true, allow_nil: true
-  # TKS - Demeter of carrier name
+  delegate :name, :to => :carrier, prefix: true, allow_nil: true
 
   def name
     "#{carrier.name}: #{path_name}"
@@ -23,6 +34,11 @@ class MonthlyCarrierRoute < ActiveRecord::Base
     "#{origin_airport_name} => #{destination_airport_name}"
   end
 
+
+
+
+
+  # building from static data methods
 
   def self.build_from_official_csv(row)
     self.new(make_hash_from_official_csv(row))

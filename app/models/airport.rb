@@ -16,4 +16,47 @@ class Airport < ActiveRecord::Base
   def location
     [city, region, country].compact.join(', ')
   end
+
+
+
+  def arriving_routes
+    arriving_monthly_carrier_routes
+  end
+
+  def departing_routes
+    departing_monthly_carrier_routes
+  end
+
+
+
+
+
+
+
+  # ugh, refactor this
+  def self.find_by_uid(obj)
+    uid = self.get_uid(obj)
+    return uid.is_a?(Airport) ? uid : Airport.where(dot_id: uid).first
+  end
+
+
+  # obj can either be a:
+  # - Airport object
+  # - iata, e.g. "LAX"
+  # - numerical Rails :id
+  # - :dot_id, e.g. "10002"
+
+  # returns (for now): dot_id
+  def self.get_uid(obj)
+    return case obj
+    when Airport
+      obj.dot_id
+    when /^[A-Z]{3}$/ # e.g. "JFK"
+      Airport.where(iata: obj).pluck(:dot_id).first
+    when Fixnum # assume it is numerical ID
+      Airport.find(obj).dot_id
+    else # actual :dot_id, e.g. "10345", which is a String
+      obj
+    end
+  end
 end

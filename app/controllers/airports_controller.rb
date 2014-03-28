@@ -1,6 +1,6 @@
 class AirportsController < ApplicationController
   def show
-    @airport = Airport.find params[:id]
+    @airport = Airport.find_by_uid params[:id]
     @carriers = Carrier.all
   end
 
@@ -11,16 +11,16 @@ class AirportsController < ApplicationController
 
 
   def carrier
-    @airport = Airport.find params[:id]
-    @carrier = Carrier.find params[:carrier_id]
+    @airport = Airport.find_by_uid params[:id]
+    @carrier = Carrier.find_by_uid params[:carrier_id]
   end
 
 
   def destination
-    @origin = Airport.where( :iata => params[:origin_id] ).first
-    @destination = Airport.where( :iata => params[:destination_id] ).first
+    @origin = Airport.find_by_uid params[:origin_id]
+    @destination = Airport.find_by_uid params[:destination_id]
 
-    @routes = MonthlyCarrierRoute.alphabetical_carrier.chrono.where(:origin_airport_dot_id => @origin.dot_id).where(:dest_airport_dot_id => @destination.dot_id)
+    @routes = @origin.departing_routes.arriving_at(@destination).includes(:carrier).normal_order
   end
 
 end
