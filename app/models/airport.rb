@@ -1,5 +1,8 @@
 class Airport < ActiveRecord::Base
 
+  extend FriendlyId
+  friendly_id :iata, :use => [:finders]
+
   validates :dot_id, :uniqueness => true, :presence => true
 
   has_many :arriving_monthly_carrier_routes, class_name: 'MonthlyCarrierRoute', primary_key: 'dot_id', foreign_key: 'dest_airport_dot_id'

@@ -1,9 +1,11 @@
 class Carrier < ActiveRecord::Base
+  extend FriendlyId
+  friendly_id :name, :use => [:slugged, :finders]
+
+
   validates :code, :uniqueness => true, :presence => true
 
   has_many :monthly_carrier_routes, primary_key: 'code', foreign_key: 'unique_carrier_code'
-
-
 
 
 # todo, refactor
