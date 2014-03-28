@@ -1,49 +1,45 @@
 
-h1 = @airport.name
+h1
+  => @airport.name
+  => "(#{@airport.iata})"
 h2 = @airport.location
 
 p => "Coordinates: #{@airport.latitude}, #{@airport.longitude}"
 
 
 section.carriers
-  table.table.table-condensed
-    - @carriers.each do |carrier|
+  h2 Carriers
+
+  table.data-table
+      thead
+      - @carriers.each do |carrier|
+        tr
+          td = link_to carrier.name, carrier
+
+section.destinations
+  h2 Popular destinations
+
+
+  = render partial: 'shared/maps/multiple_destinations', locals: {route_paths:  @destination_route_paths.to_json }
+
+  table.data-table
+    thead
       tr
-        td => link_to carrier.name, airport_carrier_path(id: @airport.id, carrier_id: carrier.id)
+          th Destination airport
+          th.num Passengers
+          th.num Seats
+          th.num Ratio
+          th.num Departures
+
+      - @destination_routes.each do |droute|
+        - destination = droute.destination_airport
+        tr
+          td = link_to destination.name, origin_destination_path(origin_id: @airport, destination_id: destination)
+          td.num = number_with_delimiter droute.total_passengers
+          td.num = number_with_delimiter droute.total_seats
+          td.num = number_to_percentage( droute.total_passengers * 100.0 / droute.total_seats, precision: 1 )
+          td.num = number_with_delimiter droute.total_departures_performed
 
 
 
 
-
-div#airport-map
-
-- content_for :ad_hoc
-  javascript:
-
-    var airportmap = new Datamap({
-      element: document.getElementById("airport-map"),
-      projection: 'mercator',
-      fills: {
-         defaultFill: '#88ccaa',
-         dot: "#3300ff"
-      },
-      setProjection: function(element) {
-        var projection = d3.geo.equirectangular()
-          .center([  #{{@airport.longitude}}, #{{@airport.latitude}} ])
-          // .rotate([4.4, 0])
-          .scale(400)
-          .translate([element.offsetWidth / 2, element.offsetHeight / 2]);
-        var path = d3.geo.path()
-          .projection(projection);
-
-        return {path: path, projection: projection};
-      }
-
-    });
-    airportmap.bubbles([
-      {
-        radius: 4,
-        fillKey: 'dot',
-        latitude: #{{@airport.latitude}},
-        longitude: #{{@airport.longitude}}
-      }]);

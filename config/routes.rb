@@ -2,7 +2,7 @@ AirSkift::Application.routes.draw do
 
   root 'main#index'
 
-  get 'airports/:origin_id/to/:destination_id' => 'airports#destination'
+  get 'airports/:origin_id/to/:destination_id' => 'airports#destination', as: 'origin_destination'
   get 'airports/:id/:carrier_id' => 'airports#carrier', as: 'airport_carrier'
 
   resources :airports

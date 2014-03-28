@@ -8,6 +8,8 @@ class Airport < ActiveRecord::Base
   has_many :arriving_monthly_carrier_routes, class_name: 'MonthlyCarrierRoute', primary_key: 'dot_id', foreign_key: 'dest_airport_dot_id'
   has_many :departing_monthly_carrier_routes, class_name: 'MonthlyCarrierRoute', primary_key: 'dot_id', foreign_key: 'origin_airport_dot_id'
 
+  has_many :serving_carriers, ->{ uniq },  :through => :departing_monthly_carrier_routes , class_name: "Carrier", source: 'carrier'
+
 # todo, refactor
   scope :with_total_passengers, ->{ joins(:departing_monthly_carrier_routes).
                         select('airports.*, sum(monthly_carrier_routes.passengers) AS total_passengers').
@@ -15,7 +17,13 @@ class Airport < ActiveRecord::Base
 
   scope :busiest, ->{ with_total_passengers.order('total_passengers DESC') }
 
-  # scope :busiest, ->{ includes(:departing_monthly_carrier_routes).group(:origin_airport_dot_id).select("SUM(monthly_carrier_routes.passengers) as passengers_sum, airports.*")
+
+  # TODO: Dry up with both Airport and Carrier methods
+  alias_method :routes, :departing_monthly_carrier_routes
+
+  def destination_routes
+    routes.destinations
+  end
 
 
 

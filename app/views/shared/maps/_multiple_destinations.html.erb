@@ -1,0 +1,27 @@
+
+
+
+<div id="route-map-dest" style="height: 600px;">
+
+</div>
+
+
+<script>
+
+var routemap = new Datamap({
+  element: document.getElementById("route-map-dest"),
+  scope: 'world',
+  projection: 'mercator',
+  geographyConfig: {
+    highlightOnHover: false,
+    popupOnHover: false
+  },
+
+});
+
+// have to use the Rails raw helper to push raw string to the template
+routemap.arc(<%=raw route_paths %>);
+
+
+
+</script>

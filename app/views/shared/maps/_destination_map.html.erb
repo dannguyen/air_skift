@@ -9,7 +9,7 @@
 
 
 <script>
-	
+
 if (($('#route-map').attr('data-origin-country') === $('#route-map').attr('data-dest-country')) && ($('#route-map').attr('data-origin-country') === 'US')) {
 		mapScope = 'usa';
 }
@@ -26,8 +26,8 @@ var routemap = new Datamap({
 	},
 
 });
-	
-routemap.arc([
+
+routemap.arc( [
 	{
 		origin: {
 			latitude: $('#route-map').attr('data-origin-lat'),

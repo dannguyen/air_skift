@@ -15,6 +15,7 @@ class Carrier < ActiveRecord::Base
   scope :busiest, ->{ with_total_passengers.order('total_passengers DESC') }
 
 
+  # TODO: Dry up with both Airport and Carrier methods
   alias_method :routes, :monthly_carrier_routes
   delegate :hubs, :to => :routes
   delegate :destinations, :to => :routes
