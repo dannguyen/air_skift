@@ -4,6 +4,17 @@ class Carrier < ActiveRecord::Base
   has_many :monthly_carrier_routes, primary_key: 'code', foreign_key: 'unique_carrier_code'
 
 
+
+
+# todo, refactor
+  scope :with_total_passengers, ->{ joins(:monthly_carrier_routes).
+                        select('carriers.*, sum(monthly_carrier_routes.passengers) AS total_passengers').
+                        group('carriers.id')  }
+
+  scope :busiest, ->{ with_total_passengers.order('total_passengers DESC') }
+
+
+
   # ugh, refactor this
   def self.find_by_uid(obj)
     uid = self.get_uid(obj)

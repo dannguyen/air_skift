@@ -20,6 +20,15 @@ class MonthlyCarrierRoute < ActiveRecord::Base
   scope :arriving_at, ->(a){ where :dest_airport_dot_id => Airport.get_uid(a)  }
   scope :via, ->(c){ where :unique_carrier_code => Carrier.get_uid(c) }
 
+  scope :total_passengers, -> { select('sum(monthly_carrier_routes.passengers) AS total_passengers') }
+  scope :total_departures_scheduled, ->{ select('sum(monthly_carrier_routes.departures_scheduled) AS total_departures_scheduled') }
+  scope :total_departures_performed, ->{ select('sum(monthly_carrier_routes.departures_performed) AS total_departures_performed') }
+  scope :total_seats, ->{ select('sum(monthly_carrier_routes.seats) AS total_seats') }
+
+  scope :busiest, ->{ order("total_passengers DESC") }
+  scope :with_path, ->(a, b){ joins([:origin_airport, :destination_airport]).departing_from(a).arriving_at(b)   }
+  scope :with_carrier, ->{ joins([:carrier]).select('carriers.*') }
+
 
 
   delegate :name, :to => :origin_airport, prefix: true, allow_nil: true

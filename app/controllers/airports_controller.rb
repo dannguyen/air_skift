@@ -1,6 +1,6 @@
 class AirportsController < ApplicationController
   def show
-    @airport = Airport.find_by_uid params[:id]
+    @airport = Airport.find params[:id]
     @carriers = Carrier.all
   end
 

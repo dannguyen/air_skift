@@ -1,5 +1,7 @@
 class MainController < ApplicationController
   def index
-    @carriers = Carrier.all
+    @carriers = Carrier.busiest.limit(20)
+    @airports = Airport.busiest.limit(20)
+
   end
 end
