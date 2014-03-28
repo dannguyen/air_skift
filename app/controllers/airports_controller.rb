@@ -11,14 +11,14 @@ class AirportsController < ApplicationController
 
 
   def carrier
-    @airport = Airport.find_by_uid params[:id]
-    @carrier = Carrier.find_by_uid params[:carrier_id]
+    @airport = Airport.find params[:id]
+    @carrier = Carrier.find params[:carrier_id]
   end
 
 
   def destination
-    @origin = Airport.find_by_uid params[:origin_id]
-    @destination = Airport.find_by_uid params[:destination_id]
+    @origin = Airport.find params[:origin_id]
+    @destination = Airport.find params[:destination_id]
 
     @routes = @origin.departing_routes.arriving_at(@destination).includes(:carrier).normal_order
   end

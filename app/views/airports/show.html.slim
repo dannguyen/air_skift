@@ -6,9 +6,10 @@ p => "Coordinates: #{@airport.latitude}, #{@airport.longitude}"
 
 
 section.carriers
-  ul
+  table.table.table-condensed
     - @carriers.each do |carrier|
-      li => link_to carrier.name, airport_carrier_path(id: @airport.id, carrier_id: carrier.id)
+      tr
+        td => link_to carrier.name, airport_carrier_path(id: @airport.id, carrier_id: carrier.id)
 
 
 

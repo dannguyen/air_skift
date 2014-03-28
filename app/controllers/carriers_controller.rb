@@ -1,8 +1,9 @@
 class CarriersController < ApplicationController
   def show
-    @carrier = Carrier.find_by_uid params[:id]
-    @hubs = @carrier.monthly_carrier_routes.group(:origin_airport_dot_id).includes(:origin_airport
-      )
+    @carrier = Carrier.find params[:id]
+    # TODO: make the model fat, obviously
+    @routes = @carrier.monthly_carrier_routes.total_capacity.with_origin.
+      group('monthly_carrier_routes.origin_airport_dot_id, year, month ')
   end
 
 

@@ -25,9 +25,16 @@ class MonthlyCarrierRoute < ActiveRecord::Base
   scope :total_departures_performed, ->{ select('sum(monthly_carrier_routes.departures_performed) AS total_departures_performed') }
   scope :total_seats, ->{ select('sum(monthly_carrier_routes.seats) AS total_seats') }
 
+  scope :total_capacity, ->{  total_passengers.total_departures_scheduled.total_departures_performed.total_seats.select('monthly_carrier_routes.*') }
+
   scope :busiest, ->{ order("total_passengers DESC") }
-  scope :with_path, ->(a, b){ joins([:origin_airport, :destination_airport]).departing_from(a).arriving_at(b)   }
-  scope :with_carrier, ->{ joins([:carrier]).select('carriers.*') }
+
+  scope :with_origin, ->{ includes(:origin_airport) }
+  scope :with_destination, ->{ includes(:destination_airport) }
+
+  scope :with_path, ->{ with_origin.with_destination }
+  scope :with_specific_path, ->(a, b){ with_path.departing_from(a).arriving_at(b)   }
+  scope :with_carrier, ->{ includes([:carrier]).select('carriers.*') }
 
 
 

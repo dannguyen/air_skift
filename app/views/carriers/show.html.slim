@@ -6,14 +6,28 @@ h1 = @carrier.name
 /     div = hub.origin_airport_name
 
 section.routes
-  table
-    - @carrier.monthly_carrier_routes.limit(100).each do |route|
+  table.table.table-condensed
+    thead
       tr
-        td = route.origin_airport_name
-        td = route.destination_airport_name
+        th Name
+        th Month
+        th Year
+        th Departures scheduled
+        th Departures performed
+        th Seats
+        th Passengers
+
+    - @routes.each do |route|
+
+      tr
+        td = link_to route.origin_airport_name, route.origin_airport
         td = route.month
         td = route.year
-        td = number_with_delimiter route.passengers
+        td = number_with_delimiter route.total_departures_scheduled
+        td = number_with_delimiter route.total_departures_performed
+        td = number_with_delimiter route.total_seats
+        td = number_with_delimiter route.total_passengers
+
         / # TKS month-year-date concat
         / td = aircraft name to differentiate
 
