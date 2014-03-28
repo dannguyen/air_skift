@@ -36,6 +36,16 @@ class MonthlyCarrierRoute < ActiveRecord::Base
   scope :with_specific_path, ->(a, b){ with_path.departing_from(a).arriving_at(b)   }
   scope :with_carrier, ->{ includes([:carrier]).select('carriers.*') }
 
+  scope :group_by_origin, ->{ group("monthly_carrier_routes.origin_airport_dot_id") }
+  scope :group_by_destination, ->{ group("monthly_carrier_routes.dest_airport_dot_id") }
+
+
+  scope :destinations, ->{total_capacity.with_destination.group_by_destination.order('total_passengers DESC')}
+  scope :hubs, -> { total_capacity.with_origin.group_by_origin.order('total_passengers DESC') }
+
+
+
+  scope :no_passengers, ->{ where(passengers: 0)}
 
 
   delegate :name, :to => :origin_airport, prefix: true, allow_nil: true

@@ -1,7 +1,7 @@
 # Aggregation queries on BTS T100 data
 
 
-##### Select busiest airports based on post-2004 traffic, add ourairports data
+##### Select busiest airports based on all traffic, add ourairports data
 
 ```sql
 select 
@@ -25,7 +25,6 @@ INNER JOIN ourairports AS t2
 INNER JOIN bts_airport_ids AS t3
   on t3.`Code` = ORIGIN_AIRPORT_ID
 
-WHERE year > 2004
 GROUP BY origin_airport_dot_id
 ORDER BY total_passengers DESC
 ```

@@ -26,6 +26,10 @@ namespace :import do
 
       desc 'removes all airports and carriers not in the sample'
       task :prune => :environment do
+        routes = MonthlyCarrierRoute.no_passengers
+        puts "Deleting #{routes.size} empty routes...\n"
+        routes.delete_all
+
         Airport.select { |a| a.departing_monthly_carrier_routes.size < 1 && a.arriving_monthly_carrier_routes.size < 1 }.each do |a|
           puts "Deleting airport #{a.name}"
           a.delete

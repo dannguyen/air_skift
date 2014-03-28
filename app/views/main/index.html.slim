@@ -1,32 +1,30 @@
 
+section.sec
+    h2 Air Carriers
+    table.data-table
+      thead
+        tr
+          th Carrier
+          th.num Total passengers
+
+      - @carriers.each do |carrier|
+        tr
+          td = link_to carrier.name, carrier
+          td.num = number_with_delimiter carrier.total_passengers
+
 
 section.sec
-  div.row
-    div.col-sm-6
-      h2 Airports
-      table.table.table-condensed
-        thead
-          tr
-            th Airport
-            th Total departing passengers
+    h2 Airports
+    table.data-table
+      thead
+        tr
+          th Airport
+          th.num Total departing passengers
 
-        - @airports.each do |airport|
-          tr
-            td = link_to airport.name, airport
-            td = number_with_delimiter airport.total_passengers
-
-    div.col-sm-6
-      h2 Air Carriers
-      table.table.table-condensed
-        thead
-          tr
-            th Carrier
-            th Total passengers
-
-        - @carriers.each do |carrier|
-          tr
-            td = link_to carrier.name, carrier
-            td = number_with_delimiter carrier.total_passengers
+      - @airports.each do |airport|
+        tr
+          td = link_to airport.name, airport
+          td.num = number_with_delimiter airport.total_passengers
 
 
 

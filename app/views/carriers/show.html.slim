@@ -1,32 +1,43 @@
 h1 = @carrier.name
 
 
-/ section
-/   - @hubs.each do |hub|
-/     div = hub.origin_airport_name
+section
+    table.data-table
+        thead
+          tr
+            th Origin airport
+            th.num Passengers
+            th.num Seats
+            th.num Ratio
+            th.num Departures
 
-section.routes
-  table.table.table-condensed
-    thead
-      tr
-        th Name
-        th Month
-        th Year
-        th Departures scheduled
-        th Departures performed
-        th Seats
-        th Passengers
+        - @hubs.each do |hub|
+            tr
+              td = hub.origin_airport_name
+              td.num = number_with_delimiter hub.total_passengers
+              td.num = number_with_delimiter hub.total_seats
+              td.num = number_to_percentage( hub.total_passengers * 100.0 / hub.total_seats, precision: 1 )
+              td.num = number_with_delimiter hub.total_departures_performed
 
-    - @routes.each do |route|
 
-      tr
-        td = link_to route.origin_airport_name, route.origin_airport
-        td = route.month
-        td = route.year
-        td = number_with_delimiter route.total_departures_scheduled
-        td = number_with_delimiter route.total_departures_performed
-        td = number_with_delimiter route.total_seats
-        td = number_with_delimiter route.total_passengers
+/ section.routes
+/   table.data-table
+/     thead
+/       tr
+/         th Name
+/         th Month
+/         th Year
+
+/     - @main_routes.each do |route|
+
+/       tr
+/         td = link_to route.origin_airport_name, route.origin_airport
+/         td = route.month
+/         td = route.year
+/         td = number_with_delimiter route.total_departures_scheduled
+/         td = number_with_delimiter route.total_departures_performed
+/         td = number_with_delimiter route.total_seats
+/         td = number_with_delimiter route.total_passengers
 
         / # TKS month-year-date concat
         / td = aircraft name to differentiate

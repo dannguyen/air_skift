@@ -1,0 +1,14 @@
+@import "bootstrap";
+
+table{
+  td.num, th.num{
+    text-align: right;
+  }
+}
+
+
+table.data-table{
+  @extend .table;
+  @extend .table-condensed;
+  @extend .table-striped;
+}
