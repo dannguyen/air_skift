@@ -1,7 +1,8 @@
+<% map_id ||= "route-destinations-map-#{rand(1000000)}-#{rand(100000)}" %>
 
 
 
-<div id="route-map-dest" style="height: 600px;">
+<div id="<%=map_id%>" style="height: 600px;">
 
 </div>
 
@@ -9,7 +10,7 @@
 <script>
 
 var routemap = new Datamap({
-  element: document.getElementById("route-map-dest"),
+  element: document.getElementById("<%=map_id%>"),
   scope: 'world',
   projection: 'mercator',
   geographyConfig: {

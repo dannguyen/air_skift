@@ -15,6 +15,10 @@ section.sec
 
 section.sec
     h2 Airports
+
+    = render :partial => 'shared/maps/bubble_map', locals: { locations:  @airports.map{|a| a.attributes} }
+
+
     table.data-table
       thead
         tr

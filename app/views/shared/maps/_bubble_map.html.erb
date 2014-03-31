@@ -1,0 +1,37 @@
+<% map_id ||= "bubble_map-#{rand(1000000)}-#{rand(100000)}" %>
+
+
+<div id="<%=map_id%>" style="height: 600px;">
+
+</div>
+
+
+<script>
+
+var bubblemap = new Datamap({
+  element: document.getElementById("<%=map_id%>"),
+  scope: 'world',
+  fills:{
+    defaultFill: '#CBE3C4',
+    dot: 'red'
+  },
+  projection: 'mercator',
+  geographyConfig: {
+    highlightOnHover: false,
+    popupOnHover: false
+  },
+
+});
+
+// have to use the Rails raw helper to push raw string to the template
+
+var bubble_data = <%=raw locations.map{|l| l.merge({fillKey: 'dot', radius: 2})}.to_json %>;
+
+bubblemap.bubbles(bubble_data, {
+    popupTemplate: function(geo, data) {
+      return '<div class="hoverinfo">Airport:' + data.name + 'Passengers: ' + data.total_passengers + '</div>';
+  }});
+
+
+
+</script>
