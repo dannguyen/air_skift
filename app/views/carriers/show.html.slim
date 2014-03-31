@@ -2,7 +2,7 @@ h1 = @carrier.name
 
 
 - data = @carrier.monthly_carrier_routes.group_passengers_by_date
-= render partial: "shared/highcharts/line", \
+= render partial: "shared/highcharts/column", \
          locals: { \
            chart: { \
              x_values: data.keys.map{|k| "#{k[0]}-#{k[1]}" }, \
@@ -10,6 +10,7 @@ h1 = @carrier.name
            } \
          }
 
+= render :partial => 'shared/maps/bubble_map', locals: { locations:  @hubs.map{|a| a.origin_airport}.map{|a| a.attributes} }
 
 
 section
@@ -30,28 +31,6 @@ section
               td.num = number_to_percentage( hub.total_passengers * 100.0 / hub.total_seats, precision: 1 )
               td.num = number_with_delimiter hub.total_departures_performed
 
-
-/ section.routes
-/   table.data-table
-/     thead
-/       tr
-/         th Name
-/         th Month
-/         th Year
-
-/     - @main_routes.each do |route|
-
-/       tr
-/         td = link_to route.origin_airport_name, route.origin_airport
-/         td = route.month
-/         td = route.year
-/         td = number_with_delimiter route.total_departures_scheduled
-/         td = number_with_delimiter route.total_departures_performed
-/         td = number_with_delimiter route.total_seats
-/         td = number_with_delimiter route.total_passengers
-
-        / # TKS month-year-date concat
-        / td = aircraft name to differentiate
 
 
 

@@ -14,10 +14,6 @@ class AirportsController < ApplicationController
     }
   end
 
-
-
-
-
   def index
     @airports = Airport.all
   end

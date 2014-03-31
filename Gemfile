@@ -34,6 +34,7 @@ group :development, :test do
   gem 'thin'
   gem 'pry-rails'
   gem 'database_cleaner', '=1.0.1'
+  gem 'factory_girl_rails'
 end
 
 gem 'rspec'

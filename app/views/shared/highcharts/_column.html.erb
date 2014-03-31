@@ -1,5 +1,5 @@
 <%
-  chart_id ||= "line-#{"%07d" %  rand(1000000)}"
+  chart_id ||= "column-#{"%07d" %  rand(1000000)}"
 
 
 #  json_labels = JSON.generate( chart_labels || {} )
@@ -20,7 +20,7 @@
       h
     },
     chart: {
-       type: 'spline',
+       type: 'column',
        backgroundColor: 'none',
     },
     colors: ['#6699cc','#003366'],

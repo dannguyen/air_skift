@@ -4,7 +4,7 @@ require 'csv'
 
 
 puts "Loading airports..."
-airports_fname = Rails.root.join('lib/assets/data/aggs/bts-t100-airports-by-record-passengers--post-2004.csv')
+airports_fname = Rails.root.join('lib/assets/data/aggs/bts-t100-airports-by-record-passengers.csv')
 CSV.open(airports_fname, headers: true).each do |row|
   hsh = {
     name: row['description'].split(':')[-1].strip,

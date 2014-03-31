@@ -20,9 +20,9 @@ select
   t2.elevation_ft AS elevation_feet
 
 from t100_all
-INNER JOIN ourairports AS t2
+LEFT JOIN ourairports AS t2
   ON t2.iata_code = ORIGIN
-INNER JOIN bts_airport_ids AS t3
+LEFT JOIN bts_airport_ids AS t3
   on t3.`Code` = ORIGIN_AIRPORT_ID
 
 GROUP BY origin_airport_dot_id
