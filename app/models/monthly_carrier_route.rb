@@ -60,7 +60,10 @@ class MonthlyCarrierRoute < ActiveRecord::Base
     "#{origin_airport_name} => #{destination_airport_name}"
   end
 
-
+  # returns a Hash: { 2012-02 => 30,500 }
+  def self.group_passengers_by_date
+    self.order('year ASC, month ASC').group([:year, :month]).sum('passengers')
+  end
 
 
 

@@ -48,6 +48,8 @@ GEM
     execjs (2.0.2)
     friendly_id (5.0.3)
       activerecord (>= 4.0.0)
+    highcharts-rails (3.0.9)
+      railties (>= 3.1)
     hike (1.2.3)
     i18n (0.6.9)
     jbuilder (1.5.3)
@@ -159,6 +161,7 @@ DEPENDENCIES
   coffee-rails (~> 4.0.0)
   database_cleaner (= 1.0.1)
   friendly_id
+  highcharts-rails (~> 3.0.7)
   jbuilder (~> 1.2)
   jquery-rails
   meta-tags

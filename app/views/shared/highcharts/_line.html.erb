@@ -1,0 +1,86 @@
+<%
+  chart_id ||= "line-#{"%07d" %  rand(1000000)}"
+
+
+#  json_labels = JSON.generate( chart_labels || {} )
+  width ||= 730
+  height ||= 370
+  x_axis ||= chart[:x_axis]
+  y_min = chart[:y_min]
+  rounding ||= 0
+
+
+  chart_options = highchart_defaults.merge({
+    series: chart[:series].map{ |h|
+      h[:marker] ||= {enabled: false}
+      unless rounding.nil?
+        h[:data] = h[:data].map{|v| v.round(rounding) } # TODO - do this in the historical archiving
+      end
+
+      h
+    },
+    chart: {
+       type: 'spline',
+       backgroundColor: 'none',
+    },
+    colors: ['#6699cc','#003366'],
+    xAxis: x_axis || {
+      categories: chart[:x_values], ### XVALUES
+      title: nil,
+      type: 'datetime',
+      tickInterval: 3,
+      dateTimeLabelFormats: {
+        month: '%e. %b',
+        year: '%b'
+      },
+      labels: {
+        maxStaggerLines: 1,
+        step: (chart[:x_values].count / 15.0).ceil,
+        style: {
+          fontWeight: 'bold',
+          fontSize: '10px',
+          fontFamily: 'Helvetica Neue',
+          color: '#000'
+        }
+      },
+
+
+      gridLineWidth: 1,
+      gridLineColor: '#aaa',
+      gridLineDashStyle: 'shortdash',
+
+    },
+
+    yAxis: {
+      gridLineWidth: 1,
+      gridLineColor: '#ccc',
+      gridLineDashStyle: 'longdash',
+      labels: {
+        style: {
+          fontWeight: 'bold',
+          fontSize: '10px',
+          fontFamily: 'Helvetica Neue',
+          color: '#000'
+        }
+      },
+      min: y_min
+    }
+  })
+%>
+
+
+
+<% content_for :ad_hoc do %>
+<script>
+  $(function(){
+    $("#<%=chart_id%>").highcharts(<%=raw JSON.generate chart_options%>);
+  });
+</script>
+<% end %>
+
+
+<div class="chart-container high-chart" id="<%=chart_id%>" style="height: <%=height%>px;">
+
+
+
+</div>

@@ -16,3 +16,4 @@
 //= require vendor/d3
 //= require vendor/topojson
 //= require vendor/datamaps.all
+//= require highcharts

@@ -1,6 +1,17 @@
 h1 = @carrier.name
 
 
+- data = @carrier.monthly_carrier_routes.group_passengers_by_date
+= render partial: "shared/highcharts/line", \
+         locals: { \
+           chart: { \
+             x_values: data.keys.map{|k| "#{k[0]}-#{k[1]}" }, \
+             series: [{ data: data.values, name: 'Passengers' }] \
+           } \
+         }
+
+
+
 section
     table.data-table
         thead
