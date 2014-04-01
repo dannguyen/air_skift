@@ -1,17 +1,17 @@
 <% map_id ||= "route-destinations-map-#{rand(1000000)}-#{rand(100000)}" %>
 
 
+<div id="<%=map_id%>-international" class="map-international" style="height: 600px;"></div>
 
-<div id="<%=map_id%>" style="height: 600px;">
-
+<div id="map-controls">
+	<a href="#" class="domestic">Domestic</a> <a href="#" class="international" style="display: none;">International</a>
 </div>
 
-
-<script>
+<script type="text/javascript">
 
 var routemap = new Datamap({
-  element: document.getElementById("<%=map_id%>"),
-  scope: 'world',
+  element: document.getElementById("<%=map_id%>-international"),
+  scope: 'usa',
   projection: 'mercator',
   geographyConfig: {
     highlightOnHover: false,
@@ -24,5 +24,10 @@ var routemap = new Datamap({
 routemap.arc(<%=raw route_paths %>);
 
 
+var svg = d3.select("svg g.datamaps-subunits, svg g.arc").call(d3.behavior.zoom().scaleExtent([1, 8]).on("zoom", zoom))
+
+function zoom() {
+  svg.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
+}
 
 </script>

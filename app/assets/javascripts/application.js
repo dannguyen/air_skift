@@ -17,3 +17,5 @@
 //= require vendor/topojson
 //= require vendor/datamaps.all
 //= require highcharts
+//= require vendor/svg-pan-zoom
+//= require air-skift
