@@ -1,7 +1,8 @@
 
 h1
   => @airport.name
-  => "(#{@airport.iata})"
+  | (#{@airport.iata})
+
 h2 = @airport.location
 
 p => "Coordinates: #{@airport.latitude}, #{@airport.longitude}"
@@ -31,12 +32,11 @@ section.carriers
 section.destinations
   h2 Destinations
 
-
-  = render partial: 'shared/maps/multiple_destinations', locals: {route_paths:  @domestic_destination_route_paths.to_json }
-
-
+  div.container
   
-  = render partial: 'shared/maps/multiple_destinations', locals: {route_paths:  @international_destination_route_paths.to_json, map_scope: 'world' }
+    = render partial: 'shared/maps/multiple_destinations', locals: {route_paths:  @domestic_destination_route_paths.to_json }
+  
+    = render partial: 'shared/maps/multiple_destinations', locals: {route_paths:  @international_destination_route_paths.to_json, map_scope: 'world' }
 
 
   table.data-table

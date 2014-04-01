@@ -1,26 +1,30 @@
 <% 
 	map_id ||= "route-destinations-map-#{rand(1000000)}-#{rand(100000)}" 
 	map_scope ||= 'usa'
-
 %>
 
 
-<div id="<%=map_id%>" style="height: 600px;"></div>
-
-<div id="map-controls">
-	<a href="#" class="domestic">Domestic</a> <a href="#" class="international" style="display: none;">International</a>
-</div>
+<div id="<%=map_id%>" class="route-map col-md-6"></div>
 
 <script type="text/javascript">
 
+mapID = "<%=map_id%>";
+mapScope = "<%=map_scope%>";
+
 var routemap = new Datamap({
-  element: document.getElementById("<%=map_id%>"),
-  scope: "<%=map_scope%>",
+  element: document.getElementById( mapID ),
+  scope: mapScope,
   projection: 'mercator',
+  fills: {
+  	defaultFill: '#ffb900'
+  },
   geographyConfig: {
     highlightOnHover: false,
     popupOnHover: false
   },
+  arcConfig: {
+  	strokeColor: '#2b74a5'
+  }
 
 });
 

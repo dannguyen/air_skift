@@ -17,4 +17,4 @@
 //= require vendor/topojson
 //= require vendor/datamaps.all
 //= require highcharts
-//= require air-skift
+//= require app-map
