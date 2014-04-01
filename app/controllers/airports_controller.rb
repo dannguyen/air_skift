@@ -2,11 +2,10 @@ class AirportsController < ApplicationController
   def show
     @airport = Airport.find params[:id]
     @carriers = @airport.serving_carriers
-    @destination_routes = @airport.destination_routes.having("total_passengers > 10000")
+    @destinations = @airport.destinations
 
     # code smell: move this to model/helper
-    @destination_route_paths = @destination_routes.map{ |route|
-        dest = route.destination_airport
+    @destination_route_paths = @destinations.map{ |dest|
         {
           origin: { latitude: @airport.latitude, longitude: @airport.longitude } ,
           destination:{ latitude: dest.latitude, longitude: dest.longitude }
@@ -15,7 +14,7 @@ class AirportsController < ApplicationController
   end
 
   def index
-    @airports = Airport.all
+    @airports = Airport.with_route_sums
   end
 
 

@@ -9,12 +9,24 @@ p => "Coordinates: #{@airport.latitude}, #{@airport.longitude}"
 
 section.carriers
   h2 Carriers
-
   table.data-table
-      thead
+    thead
+      tr
+          th Carrier
+          th.num Passengers
+          th.num Seats
+          th.num Ratio
+          th.num Departures
+
       - @carriers.each do |carrier|
         tr
           td = link_to carrier.name, carrier
+          td.num = number_with_delimiter carrier.total_passengers
+          td.num = number_with_delimiter carrier.total_seats
+          td.num = number_to_percentage( carrier.total_passengers * 100.0 / carrier.total_seats, precision: 1 )
+          td.num = number_with_delimiter carrier.total_departures_performed
+
+
 
 section.destinations
   h2 Popular destinations
@@ -31,14 +43,13 @@ section.destinations
           th.num Ratio
           th.num Departures
 
-      - @destination_routes.each do |droute|
-        - destination = droute.destination_airport
+      - @destinations.each do |destination|
         tr
           td = link_to destination.name, origin_destination_path(origin_id: @airport, destination_id: destination)
-          td.num = number_with_delimiter droute.total_passengers
-          td.num = number_with_delimiter droute.total_seats
-          td.num = number_to_percentage( droute.total_passengers * 100.0 / droute.total_seats, precision: 1 )
-          td.num = number_with_delimiter droute.total_departures_performed
+          td.num = number_with_delimiter destination.total_passengers
+          td.num = number_with_delimiter destination.total_seats
+          td.num = number_to_percentage( destination.total_passengers * 100.0 / destination.total_seats, precision: 1 )
+          td.num = number_with_delimiter destination.total_departures_performed
 
 
 

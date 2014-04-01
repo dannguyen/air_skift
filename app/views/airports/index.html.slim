@@ -1,5 +1,17 @@
 h1 Airports
 
-ul
+table.data-table
+  thead
+    tr
+        th Airport
+        th.num Departing passengers
+        th.num Seats
+        th.num Ratio
+        th.num Flights performed
   - @airports.each do |airport|
-    li = link_to airport.name, airport
+    tr
+      td = link_to airport.name, airport
+      td.num = number_with_delimiter airport.total_passengers
+      td.num = number_with_delimiter airport.total_seats
+      td.num = number_to_percentage( airport.total_passengers * 100.0 / airport.total_seats, precision: 1 )
+      td.num = number_with_delimiter airport.total_departures_performed

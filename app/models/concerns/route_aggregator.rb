@@ -9,6 +9,25 @@ module RouteAggregator
 
     scope :agg_capacity, ->{  agg_passengers.agg_departures_scheduled.agg_departures_performed.agg_seats}
   end
+
+
+  # returns Hash of aggregations
+
+  def route_sum_agged(s)
+    route_sums(s).first
+  end
+
+  def route_sums(scoped_routes=nil)
+    r = scoped_routes || self.routes
+
+    r.agg_capacity# TK should be grouped by the unique_id of the relation
+  end
+
+  private
+      def sql_id
+        "#{self.class.table_name}.id"
+      end
+
 end
 
 

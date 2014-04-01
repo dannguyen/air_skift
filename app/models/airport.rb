@@ -10,7 +10,7 @@ class Airport < ActiveRecord::Base
   has_many :arriving_monthly_carrier_routes, class_name: 'MonthlyCarrierRoute', primary_key: 'dot_id', foreign_key: 'dest_airport_dot_id'
   has_many :departing_monthly_carrier_routes, class_name: 'MonthlyCarrierRoute', primary_key: 'dot_id', foreign_key: 'origin_airport_dot_id'
 
-  has_many :serving_carriers, ->{ uniq },  :through => :departing_monthly_carrier_routes , class_name: "Carrier", source: 'carrier'
+  # has_many :serving_carriers, ->{ uniq },  :through => :departing_monthly_carrier_routes , class_name: "Carrier", source: 'carrier'
 
 # todo, refactor
   scope :with_total_passengers, ->{ joins(:departing_monthly_carrier_routes).
@@ -23,12 +23,22 @@ class Airport < ActiveRecord::Base
   # TODO: Dry up with both Airport and Carrier methods
   alias_method :routes, :departing_monthly_carrier_routes
 
-  def destination_routes
-    routes.destinations
-  end
-
   alias_method :arriving_routes, :arriving_monthly_carrier_routes
   alias_method :departing_routes, :departing_monthly_carrier_routes
+
+
+  # wow this is a doozy!
+  def destinations # TK: refactor
+    Airport.joins(:departing_monthly_carrier_routes).
+    joins('INNER JOIN airports AS destination_airports ON
+      destination_airports.dot_id =  monthly_carrier_routes.dest_airport_dot_id').
+    where('monthly_carrier_routes.origin_airport_dot_id' => self.dot_id).
+    select('destination_airports.*').
+    agg_capacity.
+    group("monthly_carrier_routes.dest_airport_dot_id").
+    order('total_passengers DESC')
+  end
+
 
 
 
@@ -39,10 +49,29 @@ class Airport < ActiveRecord::Base
 
 
 
+  def serving_carriers # TK: refactor
+    Carrier.joins(:monthly_carrier_routes => :origin_airport).
+    where({:airports => {id: self.id}}).select('carriers.*').
+    agg_capacity.
+    group("monthly_carrier_routes.unique_carrier_code").
+    order('total_passengers DESC')
+  end
+
+
+
   # ugh, refactor this
   def self.find_by_uid(obj)
     uid = self.get_uid(obj)
     return uid.is_a?(Airport) ? uid : Airport.where(dot_id: uid).first
+  end
+
+
+  def self.with_route_sums # TK should refactor with RouteAggregator.route_sums
+    self.joins(:departing_monthly_carrier_routes).
+      select('airports.*').
+      agg_capacity.
+      group("monthly_carrier_routes.origin_airport_dot_id").
+      order('total_passengers DESC')
   end
 
 

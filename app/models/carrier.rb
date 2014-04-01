@@ -48,6 +48,18 @@ class Carrier < ActiveRecord::Base
   end
 
 
+
+
+  def self.with_route_sums # TK should refactor with RouteAggregator.route_sums
+    self.joins(:monthly_carrier_routes).
+      select('carriers.*').
+      agg_capacity.
+      group("monthly_carrier_routes.unique_carrier_code").
+      order('total_passengers DESC')
+  end
+
+
+
   # obj can either be a:
   # - Carrier object
   # - Rails numerical id

@@ -1,14 +1,30 @@
 h1 Carriers
 
 
-- @carriers.each do |carrier|
-    div
-      h3 = link_to carrier.name, carrier
-      - data = carrier.monthly_carrier_routes.group_passengers_by_date
-      = render partial: "shared/highcharts/line", \
-         locals: { \
-           chart: { \
-             x_values: data.keys.map{|k| "#{k[0]}-#{k[1]}" }, \
-             series: [{ data: data.values, name: 'Passengers' }] \
-           } \
-         }
+table.data-table
+  thead
+    tr
+        th Carrier
+        th.num Departing passengers
+        th.num Seats
+        th.num Ratio
+        th.num Flights performed
+  - @carriers.each do |carrier|
+    tr
+      td = link_to carrier.name, carrier
+      td.num = number_with_delimiter carrier.total_passengers
+      td.num = number_with_delimiter carrier.total_seats
+      td.num = number_to_percentage( carrier.total_passengers * 100.0 / carrier.total_seats, precision: 1 )
+      td.num = number_with_delimiter carrier.total_departures_performed
+
+    tr
+      td colspan=5
+        div
+          - data = carrier.monthly_carrier_routes.group_passengers_by_date
+          = render partial: "shared/highcharts/line", \
+             locals: { \
+               chart: { \
+                 x_values: data.keys.map{|k| "#{k[0]}-#{k[1]}" }, \
+                 series: [{ data: data.values, name: 'Passengers' }] \
+               } \
+             }
