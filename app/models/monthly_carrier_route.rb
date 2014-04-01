@@ -1,6 +1,7 @@
 class MonthlyCarrierRoute < ActiveRecord::Base
 
   include ImportConcerns::T100Routes
+  include RouteAggregator
 
   belongs_to :origin_airport, primary_key: 'dot_id', foreign_key: 'origin_airport_dot_id', class_name: 'Airport'
   belongs_to :destination_airport, primary_key: 'dot_id', foreign_key: 'dest_airport_dot_id', class_name: 'Airport'
@@ -23,12 +24,6 @@ class MonthlyCarrierRoute < ActiveRecord::Base
   scope :arriving_at, ->(a){ where :dest_airport_dot_id => Airport.get_uid(a)  }
   scope :via, ->(c){ where :unique_carrier_code => Carrier.get_uid(c) }
 
-  scope :total_passengers, -> { select('sum(monthly_carrier_routes.passengers) AS total_passengers') }
-  scope :total_departures_scheduled, ->{ select('sum(monthly_carrier_routes.departures_scheduled) AS total_departures_scheduled') }
-  scope :total_departures_performed, ->{ select('sum(monthly_carrier_routes.departures_performed) AS total_departures_performed') }
-  scope :total_seats, ->{ select('sum(monthly_carrier_routes.seats) AS total_seats') }
-
-  scope :total_capacity, ->{  total_passengers.total_departures_scheduled.total_departures_performed.total_seats.select('monthly_carrier_routes.*') }
 
   scope :busiest, ->{ order("total_passengers DESC") }
 
@@ -43,8 +38,8 @@ class MonthlyCarrierRoute < ActiveRecord::Base
   scope :group_by_destination, ->{ group("monthly_carrier_routes.dest_airport_dot_id").where("monthly_carrier_routes.dest_airport_dot_id IS NOT ?", nil) }
 
 
-  scope :destinations, ->{total_capacity.with_destination.group_by_destination.order('total_passengers DESC')}
-  scope :hubs, -> { total_capacity.with_origin.group_by_origin.order('total_passengers DESC') }
+  scope :destinations, ->{agg_capacity.with_destination.group_by_destination.order('total_passengers DESC').select('monthly_carrier_routes.*')}
+  scope :hubs, -> { agg_capacity.with_origin.group_by_origin.order('total_passengers DESC').select('monthly_carrier_routes.*') }
 
 
 

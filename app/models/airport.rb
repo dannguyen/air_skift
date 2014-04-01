@@ -1,5 +1,7 @@
 class Airport < ActiveRecord::Base
   include ImportConcerns::BtsAirports
+  include RouteAggregator
+
   extend FriendlyId
   friendly_id :iata, :use => [:finders]
 
@@ -28,13 +30,10 @@ class Airport < ActiveRecord::Base
   alias_method :arriving_routes, :arriving_monthly_carrier_routes
   alias_method :departing_routes, :departing_monthly_carrier_routes
 
-  def carriers_with_totals
-# TK    departing_routes.total_capacity.group_by
-  end
 
 
   def location
-    [city, region, country].compact.join(', ')
+    [city, state, country].compact.join(', ')
   end
 
 

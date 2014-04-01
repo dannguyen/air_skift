@@ -1,6 +1,8 @@
 class Carrier < ActiveRecord::Base
   include ImportConcerns::BtsCarriers
   extend FriendlyId
+  include RouteAggregator
+
   friendly_id :name, :use => [:slugged, :finders]
 
 
@@ -18,8 +20,23 @@ class Carrier < ActiveRecord::Base
 
   # TODO: Dry up with both Airport and Carrier methods
   alias_method :routes, :monthly_carrier_routes
-  delegate :hubs, :to => :routes
   delegate :destinations, :to => :routes
+
+  def destinations(from_airport=nil)
+    Airport.joins(:arriving_monthly_carrier_routes => :carrier).
+    where({:carriers => {id: self.id}}).select('airports.*').
+    agg_capacity.
+    group("monthly_carrier_routes.origin_airport_dot_id").
+    order('total_passengers DESC')
+  end
+
+  def hubs # TK: refactor
+    Airport.joins(:departing_monthly_carrier_routes => :carrier).
+    where({:carriers => {id: self.id}}).select('airports.*').
+    agg_capacity.
+    group("monthly_carrier_routes.origin_airport_dot_id").
+    order('total_passengers DESC')
+  end
 
 
 

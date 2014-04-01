@@ -10,7 +10,7 @@ h1 = @carrier.name
            } \
          }
 
-= render :partial => 'shared/maps/bubble_map', locals: { locations:  @hubs.map{|a| a.origin_airport}.map{|a| a.attributes} }
+= render :partial => 'shared/maps/bubble_map', locals: { locations:  @hubs.map{|h| h.attributes} }
 
 
 section
@@ -25,7 +25,7 @@ section
 
         - @hubs.each do |hub|
             tr
-              td = link_to hub.origin_airport_name, hub.origin_airport
+              td = link_to hub.name, hub
               td.num = number_with_delimiter hub.total_passengers
               td.num = number_with_delimiter hub.total_seats
               td.num = number_to_percentage( hub.total_passengers * 100.0 / hub.total_seats, precision: 1 )
