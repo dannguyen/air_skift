@@ -1,44 +1,20 @@
 h1 From #{{@origin.name}} (#{{@origin.iata}})
 h2 to #{{@destination.name}} (#{{@destination.iata}})
-	
+
 / Hardcoded in ATL to LGA for now
 / http://0.0.0.0:3000/airports/374/to/2826
 
 = render :partial => 'shared/maps/destination_map', :locals => {origin: @origin, destination: @destination}
 
 
-/ table
-/   - @routes.each do |route|
-/     tr
-/       td = route.carrier.name
-/       td = route.year
-/       td = route.month
-/       td = AircraftModel.to_name( route.aircraft_type_id )
-/       td = number_with_delimiter route.passengers
 
-
-- @routes.group_by{|x| x.carrier}.each_pair do |carrier, routes|
-	h3 = carrier.name
-	table.table.table-striped.table-bordered
-		/ - routes.group_by{|r| r.aircraft_type_id }.each_pair do |aircraft_id, x_routes|
-		- routes.each do |route|
-			tr
-				td = Date::MONTHNAMES[route.month]
-				td = route.year
-				td = AircraftModel.to_name route.aircraft_type_id
-				td = number_with_delimiter route.passengers
-
-
-
-/ ul
-/ - @routes.group_by{|x| x.carrier}.each_pair do |carrier, routes|
-/   li
-/     => carrier.name
-/     ul
-/       - routes.each do |route|
-/         li => "Aircraft #{route.aircraft_type_id}"
-/         li =>  number_with_delimiter route.passengers
-/     / => route.year
-/     / => route.month
-/     / => route.aircraft_type_id
-/     / => number_with_delimiter route.passengers
+section.sec
+  table.data-table
+    - @routes.group_by{|x| x.carrier}.each_pair do |carrier, routes|
+      - agg = carrier.hub_with_destination_agg(@origin, @destination)
+      tr
+        td = link_to carrier.name, carrier
+        td.num = number_with_delimiter agg.total_passengers
+        td.num = number_with_delimiter agg.total_seats
+        td.num = number_to_percentage( agg.total_passengers * 100.0 / agg.total_seats, precision: 1 )
+        td.num = number_with_delimiter agg.total_departures_performed

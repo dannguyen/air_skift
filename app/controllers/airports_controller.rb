@@ -21,6 +21,14 @@ class AirportsController < ApplicationController
   def carrier
     @airport = Airport.find params[:id]
     @carrier = Carrier.find params[:carrier_id]
+    @destinations = @airport.destinations_with_carrier(@carrier)
+    @destination_route_paths = @destinations.map{ |dest|
+        {
+          origin: { latitude: @airport.latitude, longitude: @airport.longitude } ,
+          destination:{ latitude: dest.latitude, longitude: dest.longitude }
+        }
+    }
+
   end
 
 

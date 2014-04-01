@@ -1,31 +1,53 @@
 
 h2
-  => @airport.name
+  => link_to @airport.name, @airport
   => @airport.location
 
-h3 As serviced from #{{@carrier.name}}
-
-p => "Coordinates: #{@airport.latitude}, #{@airport.longitude}"
+h3 As serviced from #{{link_to @carrier.name, @carrier}}
 
 
+section.destinations
+  h2 Destinations
 
-div#airport-map
 
-- content_for :ad_hoc
-  javascript:
+  = render partial: 'shared/maps/multiple_destinations', locals: {route_paths:  @destination_route_paths.to_json }
 
-    var airportmap = new Datamap({
-      element: document.getElementById("airport-map"),
-      projection: 'mercator',
-      fills: {
-         defaultFill: '#88ccaa',
-         origin: "#3300ff",
-      }
-    });
-    airportmap.bubbles([
-      {
-        radius: 4,
-        fillKey: 'origin',
-        latitude: #{{@airport.latitude}},
-        longitude: #{{@airport.longitude}}
-      }]);
+  table.data-table
+    thead
+      tr
+          th Destination airport
+          th.num Passengers
+          th.num Seats
+          th.num Ratio
+          th.num Departures
+
+      - @destinations.each do |destination|
+        tr
+          td = link_to destination.name, origin_destination_path(origin_id: @airport, destination_id: destination)
+          td.num = number_with_delimiter destination.total_passengers
+          td.num = number_with_delimiter destination.total_seats
+          td.num = number_to_percentage( destination.total_passengers * 100.0 / destination.total_seats, precision: 1 )
+          td.num = number_with_delimiter destination.total_departures_performed
+
+
+
+/ div#airport-map
+
+/ - content_for :ad_hoc
+/   javascript:
+
+/     var airportmap = new Datamap({
+/       element: document.getElementById("airport-map"),
+/       projection: 'mercator',
+/       fills: {
+/          defaultFill: '#88ccaa',
+/          origin: "#3300ff",
+/       }
+/     });
+/     airportmap.bubbles([
+/       {
+/         radius: 4,
+/         fillKey: 'origin',
+/         latitude: #{{@airport.latitude}},
+/         longitude: #{{@airport.longitude}}
+/       }]);

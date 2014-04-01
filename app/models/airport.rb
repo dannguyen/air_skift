@@ -40,6 +40,9 @@ class Airport < ActiveRecord::Base
   end
 
 
+  def destinations_with_carrier(carrier)
+    destinations.where('monthly_carrier_routes.unique_carrier_code' => carrier.code)
+  end
 
 
   def location
