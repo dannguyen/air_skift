@@ -29,10 +29,15 @@ section.carriers
 
 
 section.destinations
-  h2 Popular destinations
+  h2 Destinations
 
 
-  = render partial: 'shared/maps/multiple_destinations', locals: {route_paths:  @destination_route_paths.to_json }
+  = render partial: 'shared/maps/multiple_destinations', locals: {route_paths:  @domestic_destination_route_paths.to_json }
+
+
+  
+  = render partial: 'shared/maps/multiple_destinations', locals: {route_paths:  @international_destination_route_paths.to_json, map_scope: 'world' }
+
 
   table.data-table
     thead

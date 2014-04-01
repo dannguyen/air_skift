@@ -1,4 +1,8 @@
-<% map_id ||= "route-destinations-map-#{rand(1000000)}-#{rand(100000)}" %>
+<% 
+	map_id ||= "route-destinations-map-#{rand(1000000)}-#{rand(100000)}" 
+	map_scope ||= 'usa'
+
+%>
 
 
 <div id="<%=map_id%>-international" class="map-international" style="height: 600px;"></div>
@@ -11,7 +15,7 @@
 
 var routemap = new Datamap({
   element: document.getElementById("<%=map_id%>-international"),
-  scope: 'usa',
+  scope: "<%=map_scope%>",
   projection: 'mercator',
   geographyConfig: {
     highlightOnHover: false,

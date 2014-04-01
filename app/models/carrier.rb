@@ -39,6 +39,14 @@ class Carrier < ActiveRecord::Base
   end
 
 
+  def hub_with_destination_agg(hub, destination)
+    route_sums.
+      where('monthly_carrier_routes.origin_airport_dot_id' => hub.dot_id).
+      where('monthly_carrier_routes.dest_airport_dot_id' => destination.dot_id).
+      group('unique_carrier_code').first
+  end
+
+
 
 
   # ugh, refactor this

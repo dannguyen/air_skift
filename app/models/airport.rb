@@ -44,6 +44,9 @@ class Airport < ActiveRecord::Base
     destinations.where('destination_airports.country = ?', 'United States')
   end
 
+    alias_method :domestic_destinations, :us_destinations
+
+
   def international_destinations
     destinations.where('destination_airports.country != ?', 'United States')
   end
@@ -55,7 +58,6 @@ class Airport < ActiveRecord::Base
   end
 
   alias_method :domestic?, :us?
-
 
 
   def international?
@@ -74,9 +76,16 @@ class Airport < ActiveRecord::Base
     routes.international_destination
   end
 
+
+  def destinations_with_carrier(carrier)
+    destinations.where('monthly_carrier_routes.unique_carrier_code' => carrier.code)
+  end
+
+
   def location
     [city, state, country].compact.join(', ')
   end
+
 
 
 
