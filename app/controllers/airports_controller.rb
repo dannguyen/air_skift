@@ -4,13 +4,26 @@ class AirportsController < ApplicationController
     @carriers = @airport.serving_carriers
     @destinations = @airport.destinations
 
+    @international_destinations = @airport.international_destinations
+    @domestic_destinations = @airport.domestic_destinations
+
     # code smell: move this to model/helper
-    @destination_route_paths = @destinations.map{ |dest|
+    @international_destination_route_paths = @international_destinations.map{ |dest|
         {
           origin: { latitude: @airport.latitude, longitude: @airport.longitude } ,
           destination:{ latitude: dest.latitude, longitude: dest.longitude }
         }
     }
+
+
+    @domestic_destination_route_paths = @domestic_destinations.map{ |dest|
+        {
+          origin: { latitude: @airport.latitude, longitude: @airport.longitude } ,
+          destination:{ latitude: dest.latitude, longitude: dest.longitude }
+        }
+    }
+
+
   end
 
   def index

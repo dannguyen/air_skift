@@ -28,15 +28,52 @@ class Airport < ActiveRecord::Base
 
 
   # wow this is a doozy!
+  # returns collection of Airports
   def destinations # TK: refactor
     Airport.joins(:departing_monthly_carrier_routes).
-    joins('INNER JOIN airports AS destination_airports ON
-      destination_airports.dot_id =  monthly_carrier_routes.dest_airport_dot_id').
+    joins('INNER JOIN airports AS destination_airports ON destination_airports.dot_id =  monthly_carrier_routes.dest_airport_dot_id').
     where('monthly_carrier_routes.origin_airport_dot_id' => self.dot_id).
     select('destination_airports.*').
     agg_capacity.
     group("monthly_carrier_routes.dest_airport_dot_id").
     order('total_passengers DESC')
+  end
+
+
+  def us_destinations
+    destinations.where('destination_airports.country = ?', 'United States')
+  end
+
+    alias_method :domestic_destinations, :us_destinations
+
+
+  def international_destinations
+    destinations.where('destination_airports.country != ?', 'United States')
+  end
+
+
+
+  def us?
+    country == 'United States'    
+  end
+
+  alias_method :domestic?, :us?
+
+
+  def international?
+    !domestic?
+  end
+
+
+  def us_routes
+    routes.us_destination
+  end
+
+  alias_method :domestic_routes, :us_routes
+
+
+  def international_routes
+    routes.international_destination
   end
 
 
@@ -48,6 +85,7 @@ class Airport < ActiveRecord::Base
   def location
     [city, state, country].compact.join(', ')
   end
+
 
 
 

@@ -19,6 +19,7 @@ class MonthlyCarrierRoute < ActiveRecord::Base
   scope :in_year, ->(y){ where(year: y) }
   scope :in_month, ->(m){ where(month: m) }
 
+
   scope :leaving_from, ->(a){ where( :origin_airport_dot_id => Airport.get_uid(a))  }
   scope :departing_from, ->(a){ leaving_from(a) } # alias
   scope :arriving_at, ->(a){ where :dest_airport_dot_id => Airport.get_uid(a)  }
@@ -43,6 +44,7 @@ class MonthlyCarrierRoute < ActiveRecord::Base
 
 
 
+
   scope :no_passengers, ->{ where(passengers: 0)}
 
 
@@ -63,6 +65,14 @@ class MonthlyCarrierRoute < ActiveRecord::Base
     self.order('year ASC, month ASC').group([:year, :month]).sum('passengers')
   end
 
+
+  def self.us_destination
+    self.joins('INNER JOIN airports AS destination_airports ON destination_airports.dot_id = monthly_carrier_routes.dest_airport_dot_id').where('destination_airports.country = ?', 'United States')
+  end
+
+  def self.international_destination
+    self.joins('INNER JOIN airports AS destination_airports ON destination_airports.dot_id = monthly_carrier_routes.dest_airport_dot_id').where('destination_airports.country != ?', 'United States')
+  end
 
 
 
