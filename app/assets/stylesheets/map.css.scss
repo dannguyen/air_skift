@@ -1,9 +1,23 @@
-
 // Route maps
-.route-map svg {
-  // max-width: 400px;
-  // max-height: 300px;
-  width: auto;
-  height: auto;
-  // min-height: 300px;
+
+// .route-map {
+// 	display: inline-block;
+// 	position: relative;
+// 	width: 100%;
+// 	padding-bottom: 100%;
+// 	vertical-align: middle;
+// 	overflow: hidden;
+// }
+
+// .svg-content {
+// 	display: inline-block;
+// 	position: absolute;
+// 	top: 0;
+// 	left: 0;
+// }
+
+.route-map-annotations {
+	div {
+		font-size: 10px;
+	}
 }

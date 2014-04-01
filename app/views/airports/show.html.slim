@@ -30,11 +30,14 @@ section.carriers
 
 
 section.destinations
-  h2 Destinations
 
   div.container
-  
+
+    h2 U.S. Destinations
+
     = render partial: 'shared/maps/multiple_destinations', locals: {route_paths:  @domestic_destination_route_paths.to_json }
+
+    h2 International Destinations
   
     = render partial: 'shared/maps/multiple_destinations', locals: {route_paths:  @international_destination_route_paths.to_json, map_scope: 'world' }
 

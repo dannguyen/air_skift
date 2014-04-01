@@ -3,32 +3,36 @@
 	map_scope ||= 'usa'
 %>
 
+<div class="row"></div>
 
-<div id="<%=map_id%>" class="route-map col-md-6"></div>
+	<div id="<%=map_id%>" class="route-map col-md-9" style="padding-left: 0; padding-right: 0;"></div>
 
-<script type="text/javascript">
+	<script type="text/javascript">
 
-mapID = "<%=map_id%>";
-mapScope = "<%=map_scope%>";
+	mapID = "<%=map_id%>";
+	mapScope = "<%=map_scope%>";
 
-var routemap = new Datamap({
-  element: document.getElementById( mapID ),
-  scope: mapScope,
-  projection: 'mercator',
-  fills: {
-  	defaultFill: '#ffb900'
-  },
-  geographyConfig: {
-    highlightOnHover: false,
-    popupOnHover: false
-  },
-  arcConfig: {
-  	strokeColor: '#2b74a5'
-  }
+	var routemap = new Datamap({
+		element: document.getElementById( mapID ),
+		scope: mapScope,
+		projection: 'mercator',
+		fills: {
+			defaultFill: '#2b74a5'
+		},
+		geographyConfig: {
+			highlightOnHover: true,
+			popupOnHover: false
+		}
+	});
 
-});
+	// have to use the Rails raw helper to push raw string to the template
+	routemap.arc(
+		<%=raw route_paths %>,
+		{
+			strokeColor: '#ffb900'
+		}
+	);
 
-// have to use the Rails raw helper to push raw string to the template
-routemap.arc(<%=raw route_paths %>);
+	</script>
 
-</script>
+</div><!-- .row -->

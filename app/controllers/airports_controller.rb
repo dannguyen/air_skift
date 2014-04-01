@@ -35,10 +35,13 @@ class AirportsController < ApplicationController
     @airport = Airport.find params[:id]
     @carrier = Carrier.find params[:carrier_id]
     @destinations = @airport.destinations_with_carrier(@carrier)
+    # Add logic to output json for instances where route has more passengers
+    # Also output the state where the route terminates
     @destination_route_paths = @destinations.map{ |dest|
         {
           origin: { latitude: @airport.latitude, longitude: @airport.longitude } ,
-          destination:{ latitude: dest.latitude, longitude: dest.longitude }
+          destination: { latitude: dest.latitude, longitude: dest.longitude },
+          state: dest.state
         }
     }
 
