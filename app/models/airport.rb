@@ -25,24 +25,17 @@ class Airport < ActiveRecord::Base
     routes.destinations
   end
 
+  alias_method :arriving_routes, :arriving_monthly_carrier_routes
+  alias_method :departing_routes, :departing_monthly_carrier_routes
+
+  def carriers_with_totals
+# TK    departing_routes.total_capacity.group_by
+  end
 
 
   def location
     [city, region, country].compact.join(', ')
   end
-
-
-
-  def arriving_routes
-    arriving_monthly_carrier_routes
-  end
-
-  def departing_routes
-    departing_monthly_carrier_routes
-  end
-
-
-
 
 
 
