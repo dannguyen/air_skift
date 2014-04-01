@@ -20,7 +20,7 @@ section.carriers
 
       - @carriers.each do |carrier|
         tr
-          td = link_to carrier.name, carrier
+          td = link_to carrier.name, airport_carrier_path( @airport, carrier)
           td.num = number_with_delimiter carrier.total_passengers
           td.num = number_with_delimiter carrier.total_seats
           td.num = number_to_percentage( carrier.total_passengers * 100.0 / carrier.total_seats, precision: 1 )

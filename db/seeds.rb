@@ -5,8 +5,17 @@ require 'csv'
 
 puts "Loading airports..."
 airports_fname = Rails.root.join('lib/assets/data/bts_aviation_support/airports/airports.csv')
+
+airport_groups = Hash.new{|h,k| h[k] = [] }
 CSV.open(airports_fname, headers: true).each do |row|
   a = Airport.build_from_official_csv(row)
+  airport_groups[a[:dot_id]] << a
+end
+
+# now cull unique airports
+airport_groups.each_pair do |k, group|
+  # assuming the last member in each group is also the *latest*
+  a = group.last
   a.save
   puts "#{a.name} - #{a.iata} #{[a.city, a.country].compact.join(', ')}"
 end
