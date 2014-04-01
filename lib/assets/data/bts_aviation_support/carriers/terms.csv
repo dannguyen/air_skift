@@ -1,0 +1,7 @@
+"TERM"," DEFINITION",
+"Airline ID","An identification number assigned by US DOT to identify a unique airline (carrier). A unique airline (carrier) is defined as one holding and reporting under the same DOT certificate regardless of its Code, Name, or holding company/corporation. Use this field for analysis across a range of years.",
+"Carrier Code","Code assigned by IATA and commonly used to identify a carrier. As the same code may have been assigned to different carriers over time, the code is not always unique.",
+"Unique Carrier","Unique Carrier Code. It is the Carrier Code most recently used by a carrier. A numeric suffix is used to distinguish duplicate codes, for example, PA, PA (1), PA (2). Use this field to perform analysis of data reported by one and only one carrier.",
+"Unique Carrier Entity","Unique Carrier Entity. This field distinguishes entities used by two or more carriers with a numeric suffix, for example, 06038 and 06038 (1).",
+"Unique Carrier Name","Unique Carrier Name. It is the name most recently used by a carrier. If two or more carriers have the same most recent name, a numeric suffix is used to distinguish them, for example, Air Caribbean, Air Caribbean (1).",
+"World Area Code (WAC)","Numeric codes used to identify geopolitical areas such as countries, states (U.S.), provinces (Canada), and territories or possessions of certain countries. The codes are used within the various data banks maintained by the Office of Airline Information (OAI) and are created by OAI.",

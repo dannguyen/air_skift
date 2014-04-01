@@ -1,0 +1,5 @@
+"TERM"," DEFINITION",
+"Airport Code","A three character alpha-numeric code issued by the U.S. Department of Transportation which is the official designation of the airport.  The airport code is not always unique to a specific airport because airport codes can change or can be reused.",
+"Airport ID","An identification number assigned by US DOT to identify a unique airport.  Use this field for airport analysis across a range of years because an airport can change its airport code and airport codes can be reused.",
+"City Market ID","An identification number assigned by US DOT to identify a city market.  Use this field to consolidate airports serving the same city market.",
+"World Area Code (WAC)","Numeric codes used to identify geopolitical areas such as countries, states (U.S.), provinces (Canada), and territories or possessions of certain countries. The codes are used within the various data banks maintained by the Office of Airline Information (OAI) and are created by OAI.",

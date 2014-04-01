@@ -17,16 +17,21 @@ ActiveRecord::Schema.define(version: 20140328041731) do
     t.string   "name"
     t.string   "city"
     t.string   "country"
-    t.string   "region"
-    t.string   "dot_id",        limit: 6
-    t.string   "iata",          limit: 4
-    t.decimal  "latitude",                precision: 10, scale: 6
-    t.decimal  "longitude",               precision: 10, scale: 6
-    t.string   "facility_type"
+    t.string   "state"
+    t.string   "dot_id",          limit: 6
+    t.string   "iata",            limit: 3
+    t.decimal  "latitude",                  precision: 10, scale: 6
+    t.decimal  "longitude",                 precision: 10, scale: 6
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "city_market_id"
+    t.integer  "city_market_wac"
+    t.date     "start_date"
+    t.date     "thru_date"
+    t.boolean  "closed"
   end
 
+  add_index "airports", ["country"], name: "index_airports_on_country", using: :btree
   add_index "airports", ["dot_id"], name: "index_airports_on_dot_id", using: :btree
   add_index "airports", ["iata"], name: "index_airports_on_iata", using: :btree
 
@@ -36,6 +41,9 @@ ActiveRecord::Schema.define(version: 20140328041731) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "slug"
+    t.string   "region",     limit: 100
+    t.date     "start_date"
+    t.date     "thru_date"
   end
 
   add_index "carriers", ["code"], name: "index_carriers_on_code", using: :btree

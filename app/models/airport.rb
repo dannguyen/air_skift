@@ -1,5 +1,5 @@
 class Airport < ActiveRecord::Base
-
+  include ImportConcerns::BtsAirports
   extend FriendlyId
   friendly_id :iata, :use => [:finders]
 

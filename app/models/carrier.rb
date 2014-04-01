@@ -1,4 +1,5 @@
 class Carrier < ActiveRecord::Base
+  include ImportConcerns::BtsCarriers
   extend FriendlyId
   friendly_id :name, :use => [:slugged, :finders]
 
