@@ -7,10 +7,11 @@ h2 to #{{@destination.name}} (#{{@destination.iata}})
 = render :partial => 'shared/maps/destination_map', :locals => {origin: @origin, destination: @destination}
 
 
+- carriers_w_routes = @routes.group_by{|x| x.carrier}
 
 section.sec
   table.data-table
-    - @routes.group_by{|x| x.carrier}.each_pair do |carrier, routes|
+    - carriers_w_routes.each_pair do |carrier, routes|
       - agg = carrier.hub_with_destination_agg(@origin, @destination)
       tr
         td = link_to carrier.name, carrier
@@ -18,3 +19,34 @@ section.sec
         td.num = number_with_delimiter agg.total_seats
         td.num = number_to_percentage( agg.total_passengers * 100.0 / agg.total_seats, precision: 1 )
         td.num = number_with_delimiter agg.total_departures_performed
+
+
+  table.data-table
+    thead
+      tr
+          th Carrier
+          th.num Departing passengers
+          th.num Seats
+          th.num Ratio
+          th.num Flights performed
+    tbody
+      - carriers_w_routes.each_pair do |carrier, routes|
+        - agg = carrier.hub_with_destination_agg(@origin, @destination)
+        tr
+          td = link_to carrier.name, carrier
+          td.num = number_with_delimiter agg.total_passengers
+          td.num = number_with_delimiter agg.total_seats
+          td.num = number_to_percentage( agg.total_passengers * 100.0 / agg.total_seats, precision: 1 )
+          td.num = number_with_delimiter agg.total_departures_performed
+
+        tr
+          td colspan=5
+            div
+              - data = carrier.monthly_carrier_routes.with_specific_path(@origin, @destination).group_passengers_by_date
+              = render partial: "shared/highcharts/column", \
+                 locals: { \
+                   chart: { \
+                     x_values: data.keys.map{|k| "#{k[0]}-#{k[1]}" }, \
+                     series: [{ data: data.values, name: 'Passengers' }] \
+                   } \
+                 }
