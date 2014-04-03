@@ -3,19 +3,25 @@
 	map_scope ||= 'usa'
 %>
 
-<div class="row"></div>
+<div class="row">
 
 	<div id="<%=map_id%>" class="route-map col-md-9" style="padding-left: 0; padding-right: 0;"></div>
+	<div class="route-map-annotations"></div>
 
 	<script type="text/javascript">
 
-	mapID = "<%=map_id%>";
-	mapScope = "<%=map_scope%>";
+	var mapID = "<%=map_id%>";
+	var mapScope = "<%=map_scope%>";
 
 	var routemap = new Datamap({
 		element: document.getElementById( mapID ),
 		scope: mapScope,
 		projection: 'mercator',
+		done: function(datamap) {
+			datamap.svg.selectAll('.datamaps-subunit').on('click', function(geography) {
+                alert(geography.properties.name);
+            });
+		},
 		fills: {
 			defaultFill: '#2b74a5'
 		},

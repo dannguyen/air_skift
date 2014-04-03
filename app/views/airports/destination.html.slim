@@ -1,9 +1,6 @@
 h1 From #{{@origin.name}} (#{{@origin.iata}})
 h2 to #{{@destination.name}} (#{{@destination.iata}})
 
-/ Hardcoded in ATL to LGA for now
-/ http://0.0.0.0:3000/airports/374/to/2826
-
 = render :partial => 'shared/maps/destination_map', :locals => {origin: @origin, destination: @destination}
 
 
