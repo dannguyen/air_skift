@@ -10,34 +10,34 @@
 
 	<script type="text/javascript">
 
-	var mapID = "<%=map_id%>";
-	var mapScope = "<%=map_scope%>";
+	var routeMapID = "<%=map_id%>";
+	var routeMapScope = "<%=map_scope%>";
+	var routeMapData = <%=raw route_paths %>;
 
 	var routemap = new Datamap({
-		element: document.getElementById( mapID ),
-		scope: mapScope,
+		element: document.getElementById( routeMapID ),
+		scope: routeMapScope,
 		projection: 'mercator',
-		done: function(datamap) {
-			datamap.svg.selectAll('.datamaps-subunit').on('click', function(geography) {
-                alert(geography.properties.name);
-            });
-		},
 		fills: {
 			defaultFill: '#2b74a5'
 		},
 		geographyConfig: {
 			highlightOnHover: true,
-			popupOnHover: false
+			popupOnHover: true,
+			popupTemplate: function(geography, data) {
+		    	return '<div class="hoverinfo">' + geography.properties.name + '</div>';
+		    }
 		}
 	});
 
 	// have to use the Rails raw helper to push raw string to the template
 	routemap.arc(
-		<%=raw route_paths %>,
+		routeMapData,
 		{
 			strokeColor: '#ffb900'
 		}
 	);
+	// routemap.labels();
 
 	</script>
 
